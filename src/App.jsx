@@ -10,7 +10,8 @@ function App() {
 
   const fetchFollowers = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/followers');
+      const res = await axios.get('https://ig-counter-backend.onrender.com');
+
       const newCount = res.data.followers_count;
 
       // Mise à jour du nom d’utilisateur si nécessaire
