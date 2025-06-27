@@ -10,7 +10,7 @@ function App() {
 
   const fetchFollowers = async () => {
     try {
-      const res = await axios.get('https://ig-counter-backend.onrender.com');
+      const res = await axios.get('https://ig-counter-backend.onrender.com/followers');
 
       const newCount = res.data.followers_count;
 
