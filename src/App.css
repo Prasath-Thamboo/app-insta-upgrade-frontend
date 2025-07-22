@@ -13,6 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/*h1{
+  text-align: center;
+  margin: 100px;
+}*/
+
 body {
   margin: 0;
   min-width: 320px;
@@ -67,9 +72,13 @@ body {
   transition: all 0.3s ease;
 }
 
-img {
+.contain .inst-logo img {
   width: 300px;
   margin-right: 20px;
+}
+
+form img {
+  width: 300px;
 }
 
 
@@ -100,11 +109,18 @@ img {
   background: #F44336; /* Rouge */
 }
 
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 form div{
   display: flex;
   justify-content: center;
   position: relative;
-  top: 500px;
+  top: 100px;
   gap: 50px;
 }
 
