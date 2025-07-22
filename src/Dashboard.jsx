@@ -59,6 +59,9 @@ function Dashboard() {
           {popupType === 'increase' ? 'Gain de followers 🚀' : 'Perte de followers 😢'}
         </div>
       )}
+      <div>
+        
+      </div>
       <div className="contain">
         <div className="ins-logo">
           <img src="/insta-logo.png" alt="Instagram Logo" />

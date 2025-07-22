@@ -5,6 +5,7 @@ import './App.css';
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [popup, setPopup] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,36 +23,38 @@ export default function Login() {
       localStorage.setItem('token', data.token);
       navigate('/dashboard');
     } else {
-      alert(data.message || 'Identifiants incorrects');
+      setPopup({ message: data.message || 'Identifiants incorrects', type: 'decrease' });
+      setTimeout(() => setPopup(null), 3000);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>
-          Bienvenue au compteur de followers
-      </h1>
-      <p>
-        Connectez-vous juste en dessous
-      </p>
-      <img src="/insta-logo.png" alt="" />
-      <div>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Identifiant"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Mot de passe"
-          required
-        />
-        <button type="submit">Connexion</button>
-      </div>
-    </form>
+    <>
+      {popup && <div className={`popup ${popup.type}`}>{popup.message}</div>}
+
+      <form onSubmit={handleSubmit} className="login-form">
+        <h1>Bienvenue au compteur de followers</h1>
+        <p>Connectez-vous juste en dessous</p>
+        <img src="/insta-logo.png" alt="Logo Instagram" style={{ width: '100px', margin: '20px 0' }} />
+
+        <div className="form-group">
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Identifiant"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Mot de passe"
+            required
+          />
+          <button type="submit">Connexion</button>
+        </div>
+      </form>
+    </>
   );
 }
