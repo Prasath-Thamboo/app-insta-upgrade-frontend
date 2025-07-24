@@ -1,4 +1,3 @@
-// AdminDashboard.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -37,28 +36,67 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="body-sim2">
-      <h1>Panneau Admin - Utilisateurs</h1>
-      {message && <p style={{ color: 'red' }}>{message}</p>}
-      <table style={{ width: '100%', marginTop: '20px' }}>
+    <div className="body-sim2" style={{ padding: '40px' }}>
+      <button
+        onClick={() => navigate('/dashboard')}
+        style={{
+          marginBottom: '30px',
+          padding: '10px 20px',
+          backgroundColor: '#007BFF',
+          color: 'white',
+          border: 'none',
+          borderRadius: '6px',
+          cursor: 'pointer',
+        }}
+      >
+        ← Retour au Dashboard
+      </button>
+
+      <h1 style={{ marginBottom: '20px' }}>Panneau Admin - Utilisateurs</h1>
+      {message && <p style={{ color: 'red', marginBottom: '15px' }}>{message}</p>}
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
-          <tr>
-            <th>Email</th>
-            <th>Username</th>
-            <th>Rôle</th>
-            <th>Actions</th>
+          <tr style={{ backgroundColor: 'purple', borderRadius:'20px' }}>
+            <th style={thStyle}>Email</th>
+            <th style={thStyle}>Username</th>
+            <th style={thStyle}>Rôle</th>
+            <th style={thStyle}>Actions</th>
           </tr>
         </thead>
         <tbody>
           {users.map((u) => (
-            <tr key={u._id}>
-              <td>{u.email}</td>
-              <td>{u.username}</td>
-              <td>{u.role}</td>
-              <td>
-                <button onClick={() => navigate(`/admin/edit/${u._id}`)}>Modifier</button>
-                <button onClick={() => navigate(`/admin/role/${u._id}`)}>Changer rôle</button>
-                <button onClick={() => deleteUser(u._id)} style={{ color: 'red' }}>Supprimer</button>
+            <tr key={u._id} style={{ borderBottom: '1px solid #ddd' }}>
+              <td style={tdStyle}>{u.email}</td>
+              <td style={tdStyle}>{u.username}</td>
+              <td style={tdStyle}>{u.role}</td>
+              <td style={tdStyle}>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  <button
+                    onClick={() => navigate(`/admin/edit/${u._id}`)}
+                    style={actionBtnStyle}
+                  >
+                    Modifier
+                  </button>
+                  <button
+                    onClick={() => navigate(`/admin/role/${u._id}`)}
+                    style={{ ...actionBtnStyle, backgroundColor: '#ffc107' }}
+                  >
+                    Changer rôle
+                  </button>
+                  <button
+                    onClick={() => navigate(`/admin/edit/${u._id}`)}
+                    style={{ ...actionBtnStyle, backgroundColor: '#17a2b8' }}
+                  >
+                    Token
+                  </button>
+                  <button
+                    onClick={() => deleteUser(u._id)}
+                    style={{ ...actionBtnStyle, backgroundColor: 'tomato' }}
+                  >
+                    Supprimer
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
@@ -67,3 +105,25 @@ export default function AdminDashboard() {
     </div>
   );
 }
+
+const thStyle = {
+  textAlign: 'left',
+  padding: '12px',
+  fontWeight: 'bold',
+  borderBottom: '2px solid #ccc',
+};
+
+const tdStyle = {
+  padding: '10px',
+  verticalAlign: 'middle',
+};
+
+const actionBtnStyle = {
+  padding: '6px 10px',
+  border: 'none',
+  borderRadius: '4px',
+  backgroundColor: '#007bff',
+  color: 'white',
+  cursor: 'pointer',
+  fontSize: '14px',
+};

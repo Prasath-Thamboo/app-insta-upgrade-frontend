@@ -1,4 +1,3 @@
-// Dashboard.jsx
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -7,12 +6,25 @@ import './App.css';
 function Dashboard() {
   const [followers, setFollowers] = useState(null);
   const [username, setUsername] = useState(null);
+  const [role, setRole] = useState(null);
   const [popupType, setPopupType] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const lastFollowers = useRef(null);
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
+
+  const fetchUserInfo = async () => {
+    try {
+      const res = await axios.get('http://localhost:3001/api/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUsername(res.data.username);
+      setRole(res.data.role);
+    } catch (err) {
+      console.error('Erreur lors de la récupération des infos utilisateur :', err);
+    }
+  };
 
   const fetchFollowers = async () => {
     try {
@@ -21,7 +33,6 @@ function Dashboard() {
       });
 
       const newCount = res.data.followers_count;
-      if (!username) setUsername(res.data.username);
 
       if (lastFollowers.current !== null && newCount !== lastFollowers.current) {
         setPopupType(newCount > lastFollowers.current ? 'increase' : 'decrease');
@@ -31,7 +42,7 @@ function Dashboard() {
       lastFollowers.current = newCount;
       setFollowers(newCount);
     } catch (err) {
-      console.error('Erreur API :', err);
+      console.warn('Impossible de récupérer les followers :', err?.response?.data?.message || err.message);
     }
   };
 
@@ -41,7 +52,8 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    fetchFollowers();
+    fetchUserInfo(); // récupère nom et rôle même si pas de token Instagram
+    fetchFollowers(); // followers peut échouer sans bloquer l'affichage
     const interval = setInterval(fetchFollowers, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -57,8 +69,12 @@ function Dashboard() {
 
   return (
     <div className="body-sim">
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap:"20px", padding: '10px 20px', position:"fixed", top:"0", right:"0"  }}>
-        <div><strong>Bienvenue{username ? `, ${username}` : ''}</strong></div>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: "20px", padding: '10px 20px', position: "fixed", top: "0", right: "0", zIndex: 100 }}>
+        <div>
+          <strong>
+            Bienvenue{username ? `, ${username}` : ''}{role === 'admin' ? ' (admin)' : ''}
+          </strong>
+        </div>
         <div style={{ position: 'relative' }}>
           <button onClick={() => setShowMenu(!showMenu)} style={{ padding: '5px 10px' }}>☰</button>
           {showMenu && (
@@ -66,6 +82,13 @@ function Dashboard() {
               <Link to="/profile">
                 <button style={{ display: 'block', marginBottom: '10px' }}>Mon compte</button>
               </Link>
+
+              {role === 'admin' && (
+                <Link to="/admin">
+                  <button style={{ display: 'block', marginBottom: '10px' }}>Panneau Admin</button>
+                </Link>
+              )}
+
               <button onClick={handleLogout} style={{ background: 'tomato', color: 'white' }}>Déconnexion</button>
             </div>
           )}

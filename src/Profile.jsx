@@ -1,4 +1,3 @@
-// Profile.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -41,7 +40,6 @@ export default function Profile() {
       setUsername(newUsername);
       setMessage('Nom d’utilisateur mis à jour.');
     } catch (err) {
-      console.error(err);
       setMessage("Erreur lors de la mise à jour du nom d'utilisateur");
     }
   };
@@ -57,7 +55,6 @@ export default function Profile() {
       setPassword('');
       setMessage('Mot de passe mis à jour.');
     } catch (err) {
-      console.error(err);
       setMessage('Erreur lors de la mise à jour du mot de passe');
     }
   };
@@ -70,74 +67,119 @@ export default function Profile() {
       localStorage.removeItem('token');
       navigate('/login');
     } catch (err) {
-      console.error(err);
       setMessage("Erreur lors de la suppression du compte");
     }
   };
 
   return (
-    <div className="body-sim" style={{ flexDirection: 'column' }}>
-      <h1 style={{ marginTop: '60px', textAlign: 'center' }}>Mon compte</h1>
-
-      <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-        <Link to="/dashboard">
-          <button style={{ padding: '8px 16px', backgroundColor: '#007BFF', color: 'white', border: 'none', borderRadius: '5px' }}>
-            ← Retour au dashboard
-          </button>
-        </Link>
-      </div>
-
-      <div style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
-        <div style={{ marginBottom: '30px', textAlign: 'center' }}>
-          <h2 style={{ marginBottom: '10px' }}>Bienvenue, <span style={{ color: '#007BFF' }}>{username}</span></h2>
+    <div className="body-sim">
+      <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <h1>Mon compte</h1>
+          <p>Bienvenue, <strong style={{ color: '#007BFF' }}>{username}</strong></p>
         </div>
 
-        <form onSubmit={handleUsernameChange} style={{ marginBottom: '30px' }}>
-          <label>Modifier le nom d’utilisateur :</label>
+        <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+          <Link to="/dashboard">
+            <button style={btnPrimary}>← Retour au dashboard</button>
+          </Link>
+        </div>
+
+        <form onSubmit={handleUsernameChange} style={sectionStyle}>
+          <label style={labelStyle}>Modifier le nom d’utilisateur :</label>
           <input
             type="text"
             value={newUsername}
             onChange={(e) => setNewUsername(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', marginTop: '8px', borderRadius: '5px', border: '1px solid #ccc' }}
+            style={inputStyle}
           />
-          <button type="submit" style={{ marginTop: '10px', padding: '10px 20px' }}>Enregistrer</button>
+          <button type="submit" style={btnPrimary}>Enregistrer</button>
         </form>
 
-        <form onSubmit={handlePasswordChange} style={{ marginBottom: '30px' }}>
-          <label>Modifier le mot de passe :</label>
+        <form onSubmit={handlePasswordChange} style={sectionStyle}>
+          <label style={labelStyle}>Modifier le mot de passe :</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', marginTop: '8px', borderRadius: '5px', border: '1px solid #ccc' }}
+            style={inputStyle}
           />
-          <button type="submit" style={{ marginTop: '10px', padding: '10px 20px' }}>Enregistrer</button>
+          <button type="submit" style={btnPrimary}>Enregistrer</button>
         </form>
 
-        <div style={{ marginTop: '30px', textAlign: 'center' }}>
-          <p>Statut : <strong>{tokenSet ? '✅ Actif' : '❌ Inactif'}</strong></p>
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <p>Statut Instagram Token : <strong>{tokenSet ? '✅ Actif' : '❌ Inactif'}</strong></p>
         </div>
 
-        <div style={{ marginTop: '40px', textAlign: 'center' }}>
+        <div style={{ marginTop: '30px', textAlign: 'center' }}>
           <button
             onClick={() => setShowConfirm(true)}
-            style={{ padding: '10px 20px', backgroundColor: 'tomato', color: 'white', border: 'none', borderRadius: '5px' }}>
+            style={btnDanger}
+          >
             Supprimer mon compte
           </button>
         </div>
 
         {showConfirm && (
-          <div style={{ marginTop: '20px', padding: '20px', background: 'linear-gradient(135deg, #ff7a18, #af002d, #5f4b8b)', borderRadius: '8px', textAlign: 'center' }}>
-            <p><strong>⚠️ Cette action est irréversible. Voulez-vous vraiment supprimer votre compte ?</strong></p>
-            <button onClick={handleDeleteAccount} style={{ margin: '10px', padding: '8px 16px', background: 'red', color: 'white' }}>Oui, supprimer</button>
-            <button onClick={() => setShowConfirm(false)} style={{ margin: '10px', padding: '8px 16px' }}>Annuler</button>
+          <div style={confirmBox}>
+            <p style={{ marginBottom: '10px' }}>⚠️ Cette action est irréversible.</p>
+            <button onClick={handleDeleteAccount} style={{ ...btnDanger, marginRight: '10px' }}>
+              Oui, supprimer
+            </button>
+            <button onClick={() => setShowConfirm(false)} style={btnPrimary}>
+              Annuler
+            </button>
           </div>
         )}
 
-        {message && <p style={{ marginTop: '30px', textAlign: 'center', color: 'green' }}>{message}</p>}
+        {message && <p style={{ marginTop: '20px', textAlign: 'center', color: 'green' }}>{message}</p>}
       </div>
     </div>
   );
 }
+
+const inputStyle = {
+  width: '100%',
+  padding: '10px',
+  marginTop: '6px',
+  marginBottom: '12px',
+  borderRadius: '5px',
+  border: '1px solid #ccc',
+};
+
+const sectionStyle = {
+  marginBottom: '30px',
+};
+
+const labelStyle = {
+  fontWeight: 'bold',
+};
+
+const btnPrimary = {
+  padding: '10px 20px',
+  backgroundColor: '#007BFF',
+  color: 'white',
+  border: 'none',
+  borderRadius: '6px',
+  cursor: 'pointer',
+};
+
+const btnDanger = {
+  padding: '10px 20px',
+  backgroundColor: 'tomato',
+  color: 'white',
+  border: 'none',
+  borderRadius: '6px',
+  cursor: 'pointer',
+};
+
+const confirmBox = {
+  marginTop: '20px',
+  padding: '20px',
+  background: '#f8d7da',
+  border: '1px solid #f5c6cb',
+  borderRadius: '6px',
+  textAlign: 'center',
+};
