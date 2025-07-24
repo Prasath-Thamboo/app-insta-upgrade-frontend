@@ -1,40 +1,43 @@
+// Dashboard.jsx
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 
 function Dashboard() {
   const [followers, setFollowers] = useState(null);
   const [username, setUsername] = useState(null);
-  const [popupType, setPopupType] = useState(null); // 'increase' | 'decrease'
+  const [popupType, setPopupType] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
   const lastFollowers = useRef(null);
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem('token');
 
   const fetchFollowers = async () => {
     try {
-      const res = await axios.get('https://ig-counter-backend.onrender.com/followers');
+      const res = await axios.get('http://localhost:3001/api/followers', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const newCount = res.data.followers_count;
-
-      // Mise à jour du nom d’utilisateur si nécessaire
       if (!username) setUsername(res.data.username);
 
-      // Détection de changement
       if (lastFollowers.current !== null && newCount !== lastFollowers.current) {
-        if (newCount > lastFollowers.current) {
-          setPopupType('increase');
-        } else {
-          setPopupType('decrease');
-        }
-
-        // Disparition automatique de la popup
+        setPopupType(newCount > lastFollowers.current ? 'increase' : 'decrease');
         setTimeout(() => setPopupType(null), 3000);
       }
 
-      // Stocker la nouvelle valeur et l'afficher
       lastFollowers.current = newCount;
       setFollowers(newCount);
     } catch (err) {
       console.error('Erreur API :', err);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
   useEffect(() => {
@@ -54,14 +57,27 @@ function Dashboard() {
 
   return (
     <div className="body-sim">
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap:"20px", padding: '10px 20px', position:"fixed", top:"0", right:"0"  }}>
+        <div><strong>Bienvenue{username ? `, ${username}` : ''}</strong></div>
+        <div style={{ position: 'relative' }}>
+          <button onClick={() => setShowMenu(!showMenu)} style={{ padding: '5px 10px' }}>☰</button>
+          {showMenu && (
+            <div style={{ position: 'absolute', top: '40px', right: 0, background: '#fff', border: '1px solid #ccc', padding: '10px', zIndex: 10 }}>
+              <Link to="/profile">
+                <button style={{ display: 'block', marginBottom: '10px' }}>Mon compte</button>
+              </Link>
+              <button onClick={handleLogout} style={{ background: 'tomato', color: 'white' }}>Déconnexion</button>
+            </div>
+          )}
+        </div>
+      </header>
+
       {popupType && (
         <div className={`popup ${popupType}`}>
           {popupType === 'increase' ? 'Gain de followers 🚀' : 'Perte de followers 😢'}
         </div>
       )}
-      <div>
-        
-      </div>
+
       <div className="contain">
         <div className="ins-logo">
           <img src="/insta-logo.png" alt="Instagram Logo" />

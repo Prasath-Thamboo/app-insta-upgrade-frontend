@@ -1,60 +1,69 @@
+// Login.jsx
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './App.css';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [popup, setPopup] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const res = await fetch('http://localhost:3001/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emailOrUsername, password }),
+      });
 
-    const res = await fetch('https://ig-counter-backend.onrender.com/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
+      const data = await res.json();
 
-    const data = await res.json();
-
-    if (res.ok) {
-      localStorage.setItem('token', data.token);
-      navigate('/dashboard');
-    } else {
-      setPopup({ message: data.message || 'Identifiants incorrects', type: 'decrease' });
+      if (res.ok) {
+        localStorage.setItem('token', data.token);
+        navigate('/dashboard');
+      } else {
+        throw new Error(data.message || 'Identifiants incorrects');
+      }
+    } catch (error) {
+      setPopup({ message: error.message, type: 'decrease' });
       setTimeout(() => setPopup(null), 3000);
     }
   };
 
   return (
-    <>
+    <div className="body-sim2">
       {popup && <div className={`popup ${popup.type}`}>{popup.message}</div>}
 
-      <form onSubmit={handleSubmit} className="login-form">
-        <h1>Bienvenue au compteur de followers</h1>
-        <p>Connectez-vous juste en dessous</p>
-        <img src="/insta-logo.png" alt="Logo Instagram" style={{ width: '100px', margin: '20px 0' }} />
+      <h1 style={{ marginBottom: '10px' }}>Bienvenue au compteur de followers</h1>
+      <p style={{ marginBottom: '20px' }}>Connectez-vous juste en dessous</p>
 
-        <div className="form-group">
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Identifiant"
-            required
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Mot de passe"
-            required
-          />
-          <button type="submit">Connexion</button>
-        </div>
+      <img src="/insta-logo.png" alt="Logo Instagram" style={{ width: '100px', marginBottom: '20px' }} />
+
+      <Link to="/register" style={{ marginBottom: '30px', textDecoration: 'none', color: '#007BFF' }}>
+        <button style={{ padding: '8px 16px' }}>Créer un compte</button>
+      </Link>
+
+      <form onSubmit={handleSubmit} className="login-form" style={{ width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        <input
+          type="text"
+          value={emailOrUsername}
+          onChange={(e) => setEmailOrUsername(e.target.value)}
+          placeholder="Email ou nom d'utilisateur"
+          required
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Mot de passe"
+          required
+        />
+        <button type="submit" style={{ padding: '10px', backgroundColor: '#007BFF', color: 'white', fontSize: '16px' }}>
+          Connexion
+        </button>
       </form>
-    </>
+    </div>
   );
 }

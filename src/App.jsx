@@ -1,10 +1,46 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './Login';
-import Dashboard from './Dashboard';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function ProtectedRoute({ children }) {
+import Login from './Login';
+import Register from './Register';
+import Dashboard from './Dashboard';
+import Profile from './Profile';
+import AdminDashboard from './AdminDashboard';
+import EditUser from './EditUser';
+import ChangeRole from './ChangeRole';
+
+function ProtectedRoute({ children, adminOnly = false }) {
   const token = localStorage.getItem('token');
-  return token ? children : <Navigate to="/login" />;
+  const [authorized, setAuthorized] = useState(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await axios.get('http://localhost:3001/api/me', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (adminOnly && res.data.role !== 'admin') {
+          setAuthorized(false);
+        } else {
+          setAuthorized(true);
+        }
+      } catch {
+        setAuthorized(false);
+      }
+    };
+
+    if (token) {
+      checkAuth();
+    } else {
+      setAuthorized(false);
+    }
+  }, [token, adminOnly]);
+
+  if (authorized === null) return <p>Chargement...</p>;
+  if (!authorized) return <Navigate to="/login" />;
+  return children;
 }
 
 function App() {
@@ -12,11 +48,53 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
+        <Route path="/register" element={<Register />} />
+
+        {/* Utilisateurs */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/edit/:id"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <EditUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/role/:id"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <ChangeRole />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Redirection par défaut */}
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </Router>
