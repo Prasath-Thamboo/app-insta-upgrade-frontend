@@ -12,6 +12,7 @@ export default function Profile() {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
+  const [style, setStyle] = useState('classic');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
@@ -24,6 +25,8 @@ export default function Profile() {
         setUsername(res.data.username);
         setNewUsername(res.data.username);
         setProfilePicture(res.data.profilePicture);
+        setStyle(res.data.dashboardStyle || 'classic');
+
       } catch (err) {
         console.error(err);
       }
@@ -98,6 +101,20 @@ export default function Profile() {
     }
   };
 
+  const updateStyle = async () => {
+  try {
+    await axios.put('http://localhost:3001/api/update-style', {
+      dashboardStyle: style,
+    }, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setMessage('Style mis à jour.');
+  } catch (err) {
+    setMessage('Erreur lors de la mise à jour du style');
+  }
+};
+
+
   return (
     <div className="body-sim" style={{ padding: '60px 20px', display: 'flex', justifyContent: 'center' }}>
       <div style={{ maxWidth: '600px', width: '100%', background: 'tomato', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
@@ -131,11 +148,24 @@ export default function Profile() {
           <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} style={{ width: '100%', marginTop: '5px' }} />
           <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Uploader</button>
         </form>
+        
+        <div style={{ marginTop: '30px' }}>
+  <h3>Choisir le design du dashboard :</h3>
+  <select value={style} onChange={(e) => setStyle(e.target.value)} style={{ padding: '8px', borderRadius: '5px' }}>
+    <option value="classic">Classique</option>
+    <option value="modern">Moderne</option>
+    <option value="minimal">Minimal</option>
+    <option value="neon">Neon</option>
+    <option value="glass">Glassmorphism</option>
+  </select>
+  <button onClick={updateStyle} style={{ marginLeft: '10px', padding: '8px 16px' }}>Enregistrer</button>
+</div>
+
 
         <button onClick={() => setShowConfirm(true)} style={{ width: '100%', backgroundColor: 'red', color: 'white', marginTop: '20px' }}>Supprimer mon compte</button>
 
         {showConfirm && (
-          <div style={{ marginTop: '20px', backgroundColor: '#ffe0e0', padding: '15px', borderRadius: '5px', textAlign: 'center' }}>
+          <div style={{ marginTop: '20px', backgroundColor: 'grey', padding: '15px', borderRadius: '5px', textAlign: 'center' }}>
             <p><strong>⚠️ Cette action est irréversible. Voulez-vous vraiment supprimer votre compte ?</strong></p>
             <button onClick={handleDeleteAccount} style={{ margin: '5px', backgroundColor: 'red', color: 'white' }}>Oui, supprimer</button>
             <button onClick={() => setShowConfirm(false)} style={{ margin: '5px' }}>Annuler</button>

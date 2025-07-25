@@ -10,6 +10,7 @@ function Dashboard() {
   const [profilePicture, setProfilePicture] = useState('');
   const [popupType, setPopupType] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
+  const [design, setDesign] = useState('classic');
   const lastFollowers = useRef(null);
   const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ function Dashboard() {
       setUsername(res.data.username);
       setRole(res.data.role);
       setProfilePicture(res.data.profilePicture);
+      setDesign(res.data.dashboardStyle);
     } catch (err) {
       console.error('Erreur lors de la récupération des infos utilisateur :', err);
     }
@@ -63,14 +65,15 @@ function Dashboard() {
   const renderDigits = () => {
     if (followers === null) return null;
     return followers.toString().split('').map((digit, index) => (
-      <div className="digit animate" key={`${digit}-${index}-${followers}`}>
+      <div className={`digit animate ${design}`} key={`${digit}-${index}-${followers}`}>
         {digit}
       </div>
+
     ));
   };
 
   return (
-    <div className="body-sim">
+    <div className={`body-sim ${design}`}>
       <header style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -122,12 +125,12 @@ function Dashboard() {
         </div>
       )}
 
-      <div className="contain">
+      <div className={`contain ${design}`}>
         <div className="ins-logo">
           <img
             src={profilePicture || '/insta-logo.png'}
             alt="Profil utilisateur ou logo Instagram"
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'cover', width: '300px', marginRight: '20px' }}
           />
         </div>
         <div className="title-container">{renderDigits()}</div>

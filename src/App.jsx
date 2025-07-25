@@ -9,6 +9,7 @@ import Profile from './Profile';
 import AdminDashboard from './AdminDashboard';
 import EditUser from './EditUser';
 import ChangeRole from './ChangeRole';
+import EmailConfirmation from './EmailConfirmation'; // ✅ Import du composant
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const token = localStorage.getItem('token');
@@ -49,6 +50,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        {/* ✅ Route de confirmation d'email */}
+        <Route path="/verify-email" element={<EmailConfirmation />} />
 
         {/* Utilisateurs */}
         <Route
