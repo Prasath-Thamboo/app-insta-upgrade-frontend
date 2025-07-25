@@ -1,3 +1,4 @@
+// Profile.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -7,9 +8,10 @@ export default function Profile() {
   const [username, setUsername] = useState('');
   const [newUsername, setNewUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [tokenSet, setTokenSet] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [profilePicture, setProfilePicture] = useState('');
+  const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
+  const [showConfirm, setShowConfirm] = useState(false);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
@@ -21,7 +23,7 @@ export default function Profile() {
         });
         setUsername(res.data.username);
         setNewUsername(res.data.username);
-        setTokenSet(!!res.data.instagramToken);
+        setProfilePicture(res.data.profilePicture);
       } catch (err) {
         console.error(err);
       }
@@ -38,8 +40,9 @@ export default function Profile() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setUsername(newUsername);
-      setMessage('Nom d’utilisateur mis à jour.');
+      setMessage("Nom d'utilisateur mis à jour.");
     } catch (err) {
+      console.error(err);
       setMessage("Erreur lors de la mise à jour du nom d'utilisateur");
     }
   };
@@ -55,7 +58,8 @@ export default function Profile() {
       setPassword('');
       setMessage('Mot de passe mis à jour.');
     } catch (err) {
-      setMessage('Erreur lors de la mise à jour du mot de passe');
+      console.error(err);
+      setMessage("Erreur lors de la mise à jour du mot de passe");
     }
   };
 
@@ -67,119 +71,81 @@ export default function Profile() {
       localStorage.removeItem('token');
       navigate('/login');
     } catch (err) {
+      console.error(err);
       setMessage("Erreur lors de la suppression du compte");
     }
   };
 
-  return (
-    <div className="body-sim">
-      <div style={{ maxWidth: '500px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <h1>Mon compte</h1>
-          <p>Bienvenue, <strong style={{ color: '#007BFF' }}>{username}</strong></p>
-        </div>
+  const handleImageUpload = async (e) => {
+    e.preventDefault();
+    if (!file) return setMessage('Veuillez sélectionner une image.');
 
-        <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const res = await axios.post('http://localhost:3001/api/upload-profile-picture', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setProfilePicture(res.data.url);
+      setMessage('Photo de profil mise à jour.');
+    } catch (err) {
+      console.error(err);
+      setMessage("Erreur lors de l'upload de l'image.");
+    }
+  };
+
+  return (
+    <div className="body-sim" style={{ padding: '60px 20px', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ maxWidth: '600px', width: '100%', background: 'tomato', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+        <div style={{ marginTop: '30px', textAlign: 'center' }}>
           <Link to="/dashboard">
-            <button style={btnPrimary}>← Retour au dashboard</button>
+            <button style={{ backgroundColor: '#007BFF', color: 'white', padding: '10px 20px' }}>
+              ← Retour au dashboard
+            </button>
           </Link>
         </div>
-
-        <form onSubmit={handleUsernameChange} style={sectionStyle}>
-          <label style={labelStyle}>Modifier le nom d’utilisateur :</label>
-          <input
-            type="text"
-            value={newUsername}
-            onChange={(e) => setNewUsername(e.target.value)}
-            required
-            style={inputStyle}
-          />
-          <button type="submit" style={btnPrimary}>Enregistrer</button>
-        </form>
-
-        <form onSubmit={handlePasswordChange} style={sectionStyle}>
-          <label style={labelStyle}>Modifier le mot de passe :</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={inputStyle}
-          />
-          <button type="submit" style={btnPrimary}>Enregistrer</button>
-        </form>
-
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <p>Statut Instagram Token : <strong>{tokenSet ? '✅ Actif' : '❌ Inactif'}</strong></p>
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <h2>Profil utilisateur</h2>
+          {profilePicture && <img src={profilePicture} alt="Profil" style={{ width: '100px', height: '100px', borderRadius: '50%', marginTop: '10px' }} />}
+          <p style={{ color: '#555' }}>Connecté en tant que <strong>{username}</strong></p>
         </div>
 
-        <div style={{ marginTop: '30px', textAlign: 'center' }}>
-          <button
-            onClick={() => setShowConfirm(true)}
-            style={btnDanger}
-          >
-            Supprimer mon compte
-          </button>
-        </div>
+        <form onSubmit={handleUsernameChange} style={{ marginBottom: '20px' }}>
+          <label>Nom d’utilisateur</label>
+          <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: '1px solid #ccc' }} />
+          <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Modifier</button>
+        </form>
+
+        <form onSubmit={handlePasswordChange} style={{ marginBottom: '20px' }}>
+          <label>Nouveau mot de passe</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: '1px solid #ccc' }} />
+          <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Changer le mot de passe</button>
+        </form>
+
+        <form onSubmit={handleImageUpload} style={{ marginBottom: '20px' }}>
+          <label>Photo de profil</label>
+          <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} style={{ width: '100%', marginTop: '5px' }} />
+          <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Uploader</button>
+        </form>
+
+        <button onClick={() => setShowConfirm(true)} style={{ width: '100%', backgroundColor: 'red', color: 'white', marginTop: '20px' }}>Supprimer mon compte</button>
 
         {showConfirm && (
-          <div style={confirmBox}>
-            <p style={{ marginBottom: '10px' }}>⚠️ Cette action est irréversible.</p>
-            <button onClick={handleDeleteAccount} style={{ ...btnDanger, marginRight: '10px' }}>
-              Oui, supprimer
-            </button>
-            <button onClick={() => setShowConfirm(false)} style={btnPrimary}>
-              Annuler
-            </button>
+          <div style={{ marginTop: '20px', backgroundColor: '#ffe0e0', padding: '15px', borderRadius: '5px', textAlign: 'center' }}>
+            <p><strong>⚠️ Cette action est irréversible. Voulez-vous vraiment supprimer votre compte ?</strong></p>
+            <button onClick={handleDeleteAccount} style={{ margin: '5px', backgroundColor: 'red', color: 'white' }}>Oui, supprimer</button>
+            <button onClick={() => setShowConfirm(false)} style={{ margin: '5px' }}>Annuler</button>
           </div>
         )}
 
-        {message && <p style={{ marginTop: '20px', textAlign: 'center', color: 'green' }}>{message}</p>}
+        {message && <p style={{ marginTop: '20px', color: 'green', textAlign: 'center' }}>{message}</p>}
+
+        
       </div>
     </div>
   );
 }
-
-const inputStyle = {
-  width: '100%',
-  padding: '10px',
-  marginTop: '6px',
-  marginBottom: '12px',
-  borderRadius: '5px',
-  border: '1px solid #ccc',
-};
-
-const sectionStyle = {
-  marginBottom: '30px',
-};
-
-const labelStyle = {
-  fontWeight: 'bold',
-};
-
-const btnPrimary = {
-  padding: '10px 20px',
-  backgroundColor: '#007BFF',
-  color: 'white',
-  border: 'none',
-  borderRadius: '6px',
-  cursor: 'pointer',
-};
-
-const btnDanger = {
-  padding: '10px 20px',
-  backgroundColor: 'tomato',
-  color: 'white',
-  border: 'none',
-  borderRadius: '6px',
-  cursor: 'pointer',
-};
-
-const confirmBox = {
-  marginTop: '20px',
-  padding: '20px',
-  background: '#f8d7da',
-  border: '1px solid #f5c6cb',
-  borderRadius: '6px',
-  textAlign: 'center',
-};

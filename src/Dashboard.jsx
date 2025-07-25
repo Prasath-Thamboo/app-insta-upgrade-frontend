@@ -7,6 +7,7 @@ function Dashboard() {
   const [followers, setFollowers] = useState(null);
   const [username, setUsername] = useState(null);
   const [role, setRole] = useState(null);
+  const [profilePicture, setProfilePicture] = useState('');
   const [popupType, setPopupType] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const lastFollowers = useRef(null);
@@ -21,6 +22,7 @@ function Dashboard() {
       });
       setUsername(res.data.username);
       setRole(res.data.role);
+      setProfilePicture(res.data.profilePicture);
     } catch (err) {
       console.error('Erreur lors de la récupération des infos utilisateur :', err);
     }
@@ -52,8 +54,8 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    fetchUserInfo(); // récupère nom et rôle même si pas de token Instagram
-    fetchFollowers(); // followers peut échouer sans bloquer l'affichage
+    fetchUserInfo();
+    fetchFollowers();
     const interval = setInterval(fetchFollowers, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -69,16 +71,35 @@ function Dashboard() {
 
   return (
     <div className="body-sim">
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: "20px", padding: '10px 20px', position: "fixed", top: "0", right: "0", zIndex: 100 }}>
-        <div>
+      <header style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: "20px",
+        padding: '10px 20px',
+        position: "fixed",
+        top: "0",
+        right: "0",
+        zIndex: 100,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <strong>
             Bienvenue{username ? `, ${username}` : ''}{role === 'admin' ? ' (admin)' : ''}
           </strong>
         </div>
+
         <div style={{ position: 'relative' }}>
           <button onClick={() => setShowMenu(!showMenu)} style={{ padding: '5px 10px' }}>☰</button>
           {showMenu && (
-            <div style={{ position: 'absolute', top: '40px', right: 0, background: '#fff', border: '1px solid #ccc', padding: '10px', zIndex: 10 }}>
+            <div style={{
+              position: 'absolute',
+              top: '40px',
+              right: 0,
+              background: '#fff',
+              border: '1px solid #ccc',
+              padding: '10px',
+              zIndex: 10
+            }}>
               <Link to="/profile">
                 <button style={{ display: 'block', marginBottom: '10px' }}>Mon compte</button>
               </Link>
@@ -103,7 +124,11 @@ function Dashboard() {
 
       <div className="contain">
         <div className="ins-logo">
-          <img src="/insta-logo.png" alt="Instagram Logo" />
+          <img
+            src={profilePicture || '/insta-logo.png'}
+            alt="Profil utilisateur ou logo Instagram"
+            style={{ objectFit: 'cover' }}
+          />
         </div>
         <div className="title-container">{renderDigits()}</div>
       </div>
