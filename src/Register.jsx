@@ -1,6 +1,5 @@
-// Register.jsx
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './App.css';
 
 export default function Register() {
@@ -11,7 +10,7 @@ export default function Register() {
   const [instaPassword, setInstaPassword] = useState('');
   const [consent, setConsent] = useState(null);
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,8 +30,8 @@ export default function Register() {
       const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem('token', data.token);
-        navigate('/dashboard');
+        setMessage(data.message || "Inscription réussie. Veuillez vérifier votre email.");
+        setSubmitted(true); // Ne pas rediriger
       } else {
         throw new Error(data.message || 'Erreur lors de l’inscription');
       }
@@ -44,7 +43,7 @@ export default function Register() {
   if (consent === null) {
     return (
       <div className="body-sim2" style={{ flexDirection: 'column', padding: '20px' }}>
-        <h2 style={{ marginBottom: '20px' }}>Avez-vous un compte Instagram Professionel ?</h2>
+        <h2 style={{ marginBottom: '20px' }}>Avez-vous un compte Instagram Professionnel ?</h2>
         <div>
           <button onClick={() => setConsent(true)} style={{ marginRight: '10px' }}>Oui</button>
           <button onClick={() => setConsent(false)} style={{ backgroundColor: 'tomato', color: 'white' }}>Non</button>
@@ -67,49 +66,55 @@ export default function Register() {
       <h1 style={{ marginBottom: '10px' }}>Créer un compte</h1>
       <p style={{ marginBottom: '20px' }}>Remplissez les informations ci-dessous</p>
 
-      {message && <p style={{ color: 'red', marginBottom: '10px' }}>{message}</p>}
+      {message && <p style={{ color: submitted ? 'green' : 'red', marginBottom: '10px' }}>{message}</p>}
 
-      <form onSubmit={handleSubmit} className="login-form" style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email de connexion"
-          required
-        />
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Nom d’utilisateur"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Mot de passe"
-          required
-        />
-        <input
-          type="email"
-          value={instaEmail}
-          onChange={(e) => setInstaEmail(e.target.value)}
-          placeholder="Email Instagram"
-          required
-        />
-        <input
-          type="password"
-          value={instaPassword}
-          onChange={(e) => setInstaPassword(e.target.value)}
-          placeholder="Mot de passe Instagram"
-          required
-        />
+      {!submitted ? (
+        <form onSubmit={handleSubmit} className="login-form" style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email de connexion"
+            required
+          />
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Nom d’utilisateur"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Mot de passe"
+            required
+          />
+          <input
+            type="email"
+            value={instaEmail}
+            onChange={(e) => setInstaEmail(e.target.value)}
+            placeholder="Email Instagram"
+            required
+          />
+          <input
+            type="password"
+            value={instaPassword}
+            onChange={(e) => setInstaPassword(e.target.value)}
+            placeholder="Mot de passe Instagram"
+            required
+          />
 
-        <button type="submit" style={{ padding: '10px', backgroundColor: '#007BFF', color: 'white', fontSize: '16px' }}>
-          S’inscrire
-        </button>
-      </form>
+          <button type="submit" style={{ padding: '10px', backgroundColor: '#007BFF', color: 'white', fontSize: '16px' }}>
+            S’inscrire
+          </button>
+        </form>
+      ) : (
+        <p style={{ fontSize: '18px', marginTop: '20px' }}>
+          Merci ! Un email de confirmation a été envoyé. Vérifiez votre boîte mail avant de vous connecter.
+        </p>
+      )}
 
       <p style={{ marginTop: '20px' }}>
         Déjà un compte ? <Link to="/login"><strong>Connectez-vous</strong></Link>
