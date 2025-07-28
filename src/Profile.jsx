@@ -116,8 +116,8 @@ export default function Profile() {
 
 
   return (
-    <div className="body-sim" style={{ padding: '60px 20px', display: 'flex', justifyContent: 'center' }}>
-      <div style={{ maxWidth: '600px', width: '100%', background: 'tomato', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+    <div className="body-sim" style={{ height:'100%', padding: '60px 20px', display: 'flex', justifyContent: 'center' }}>
+      <div style={{maxWidth: '600px', width: '100%', background: 'tomato', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
         <div style={{ marginTop: '30px', textAlign: 'center' }}>
           <Link to="/dashboard">
             <button style={{ backgroundColor: '#007BFF', color: 'white', padding: '10px 20px' }}>
@@ -133,13 +133,13 @@ export default function Profile() {
 
         <form onSubmit={handleUsernameChange} style={{ marginBottom: '20px' }}>
           <label>Nom d’utilisateur</label>
-          <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: '1px solid #ccc' }} />
+          <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: 'none', backgroundColor:'lightgrey'  }} />
           <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Modifier</button>
         </form>
 
         <form onSubmit={handlePasswordChange} style={{ marginBottom: '20px' }}>
           <label>Nouveau mot de passe</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: '1px solid #ccc' }} />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: 'none', backgroundColor:'lightgrey' }} />
           <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Changer le mot de passe</button>
         </form>
 

@@ -1,19 +1,18 @@
-// src/pages/EmailConfirmation.jsx
+// src/EmailConfirmation.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const EmailConfirmation = () => {
+  const { token } = useParams(); // ✅ Utilise useParams pour récupérer le token de l’URL
   const [message, setMessage] = useState('Validation en cours...');
   const [success, setSuccess] = useState(null);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-
     const verifyEmail = async () => {
       try {
-        const res = await axios.get(`http://localhost:3001/api/verify-email?token=${token}`);
-        setMessage(res.data.message);
+        const res = await axios.get(`http://localhost:3001/api/verify-email/${token}`);
+        setMessage(res.data.message || "Email vérifié avec succès.");
         setSuccess(true);
       } catch (err) {
         setMessage(err.response?.data?.message || "Erreur lors de la validation.");
@@ -27,7 +26,7 @@ const EmailConfirmation = () => {
       setMessage("Lien de validation invalide.");
       setSuccess(false);
     }
-  }, []);
+  }, [token]);
 
   return (
     <div style={{

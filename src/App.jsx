@@ -9,7 +9,10 @@ import Profile from './Profile';
 import AdminDashboard from './AdminDashboard';
 import EditUser from './EditUser';
 import ChangeRole from './ChangeRole';
-import EmailConfirmation from './EmailConfirmation'; // ✅ Import du composant
+import EmailConfirmation from './EmailConfirmation';
+import StripeCheckout from './StripeCheckout';
+import PaymentSuccess from './PaymentSuccess';
+import PaymentCancelled from './PaymentCancelled';
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const token = localStorage.getItem('token');
@@ -48,13 +51,19 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* ✅ Route de confirmation d'email */}
-        <Route path="/verify-email" element={<EmailConfirmation />} />
+        {/* Vérification d'email */}
+        <Route path="/verify-email/:token" element={<EmailConfirmation />} />
 
-        {/* Utilisateurs */}
+        {/* Stripe Paiement */}
+        <Route path="/subscribe" element={<StripeCheckout />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/payment-cancelled" element={<PaymentCancelled />} />
+
+        {/* Utilisateur */}
         <Route
           path="/dashboard"
           element={
