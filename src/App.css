@@ -11,6 +11,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --bg: linear-gradient(135deg, #ff7a18, #af002d, #5f4b8b);
+  --simple-color: black;
+  --simple-color2: white;
+  --main-color : #6772e5;
+
 }
 
 input{

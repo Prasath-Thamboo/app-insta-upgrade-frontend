@@ -1,10 +1,21 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PaymentSuccess = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate('/dashboard');
+    }, 3000); // 3 secondes
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
   return (
-    <div style={{ padding: "60px", textAlign: "center" }}>
-      <h2 style={{ color: "#28a745" }}>✅ Paiement réussi !</h2>
-      <p>Merci pour votre abonnement. Vous avez désormais accès au compteur et aux fonctionnalités premium.</p>
+    <div style={{ padding: '50px', textAlign: 'center' }}>
+      <h2>Paiement réussi ✅</h2>
+      <p>Redirection vers votre dashboard...</p>
     </div>
   );
 };

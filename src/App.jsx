@@ -13,6 +13,9 @@ import EmailConfirmation from './EmailConfirmation';
 import StripeCheckout from './StripeCheckout';
 import PaymentSuccess from './PaymentSuccess';
 import PaymentCancelled from './PaymentCancelled';
+import Contact from './Contact';
+
+
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const token = localStorage.getItem('token');
@@ -51,6 +54,9 @@ function App() {
   return (
     <Router>
       <Routes>
+
+        <Route path="/contact" element={<Contact />} />
+
         {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

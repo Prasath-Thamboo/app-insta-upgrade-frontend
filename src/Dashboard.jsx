@@ -103,14 +103,31 @@ function Dashboard() {
               padding: '10px',
               zIndex: 10
             }}>
-              <Link to="/profile">
-                <button style={{ display: 'block', marginBottom: '10px' }}>Mon compte</button>
-              </Link>
+
+              
+              {(role === 'user' || role === 'admin') && (
+                <Link to="/profile">
+                  <button style={{ display: 'block', marginBottom: '10px' }}>Mon compte</button>
+                </Link>
+              )}
+
 
               {role === 'admin' && (
                 <Link to="/admin">
                   <button style={{ display: 'block', marginBottom: '10px' }}>Panneau Admin</button>
                 </Link>
+              )}
+
+              {role === 'freeuser' && (
+                <Link to="/subscribe">
+                  <button style={{ display: 'block', marginBottom: '10px', backgroundColor: '#6772e5', color: 'white' }}>S'abonner</button>
+                </Link>
+              )}
+
+              {(role === 'user' || role === 'freeuser') && (
+                <Link to="/contact">
+                <button style={{ display: 'block', marginBottom: '10px' }}>Contact</button>
+              </Link>
               )}
 
               <button onClick={handleLogout} style={{ background: 'tomato', color: 'white' }}>Déconnexion</button>
