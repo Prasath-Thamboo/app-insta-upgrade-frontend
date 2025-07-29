@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import ConnectInstagram from './ConnectInstagram';
 import Login from './Login';
 import Register from './Register';
 import Dashboard from './Dashboard';
@@ -13,6 +13,7 @@ import EmailConfirmation from './EmailConfirmation';
 import StripeCheckout from './StripeCheckout';
 import PaymentSuccess from './PaymentSuccess';
 import PaymentCancelled from './PaymentCancelled';
+import InstagramCallback from './InstagramCallback';
 import Contact from './Contact';
 
 
@@ -54,6 +55,11 @@ function App() {
   return (
     <Router>
       <Routes>
+
+        
+        <Route path="/instagram-callback" element={<InstagramCallback />} />
+
+        <Route path="/connect-instagram" element={<ConnectInstagram />} />
 
         <Route path="/contact" element={<Contact />} />
 

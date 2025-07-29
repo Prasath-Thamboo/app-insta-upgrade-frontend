@@ -120,7 +120,7 @@ export default function Profile() {
       <div style={{maxWidth: '600px', width: '100%', background: 'tomato', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
         <div style={{ marginTop: '30px', textAlign: 'center' }}>
           <Link to="/dashboard">
-            <button style={{ backgroundColor: '#007BFF', color: 'white', padding: '10px 20px' }}>
+            <button style={{ backgroundColor: 'var(--main-color)', color: 'white', padding: '10px 20px' }}>
               ← Retour au dashboard
             </button>
           </Link>

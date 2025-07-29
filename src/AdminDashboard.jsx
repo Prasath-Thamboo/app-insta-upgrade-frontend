@@ -57,7 +57,7 @@ export default function AdminDashboard() {
 
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
-          <tr style={{ backgroundColor: 'purple', borderRadius:'20px' }}>
+          <tr style={{ backgroundColor: 'var(--main-color)', borderRadius:'20px' }}>
             <th style={thStyle}>Email</th>
             <th style={thStyle}>Username</th>
             <th style={thStyle}>Rôle</th>

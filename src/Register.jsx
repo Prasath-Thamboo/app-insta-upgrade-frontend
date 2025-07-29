@@ -6,8 +6,6 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [instaEmail, setInstaEmail] = useState('');
-  const [instaPassword, setInstaPassword] = useState('');
   const [consent, setConsent] = useState(null);
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -24,7 +22,7 @@ export default function Register() {
       const res = await fetch('http://localhost:3001/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, username, password, instaEmail, instaPassword }),
+        body: JSON.stringify({ email, username, password }),
       });
 
       const data = await res.json();
@@ -89,20 +87,6 @@ export default function Register() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Mot de passe"
-            required
-          />
-          <input
-            type="email"
-            value={instaEmail}
-            onChange={(e) => setInstaEmail(e.target.value)}
-            placeholder="Email Instagram"
-            required
-          />
-          <input
-            type="password"
-            value={instaPassword}
-            onChange={(e) => setInstaPassword(e.target.value)}
-            placeholder="Mot de passe Instagram"
             required
           />
 

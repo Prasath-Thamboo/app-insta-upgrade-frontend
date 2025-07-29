@@ -10,7 +10,6 @@ export default function EditUser() {
 
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
-  const [instaEmail, setInstaEmail] = useState('');
   const [instagramToken, setInstagramToken] = useState('');
   const [message, setMessage] = useState('');
 
@@ -23,7 +22,6 @@ export default function EditUser() {
       if (!user) return setMessage('Utilisateur introuvable');
       setEmail(user.email);
       setUsername(user.username);
-      setInstaEmail(user.instaEmail || '');
       setInstagramToken(user.instagramToken || '');
     })
     .catch(() => setMessage('Erreur de chargement'));
@@ -36,7 +34,6 @@ export default function EditUser() {
       await axios.put(`http://localhost:3001/api/admin/users/${id}`, {
         email,
         username,
-        instaEmail
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -68,9 +65,6 @@ export default function EditUser() {
 
         <label>Nom d’utilisateur :</label>
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-
-        <label>Email Instagram :</label>
-        <input type="email" value={instaEmail} onChange={(e) => setInstaEmail(e.target.value)} />
 
         <label>Token Instagram :</label>
         <input

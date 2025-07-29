@@ -151,6 +151,23 @@ function Dashboard() {
           />
         </div>
         <div className="title-container">{renderDigits()}</div>
+        {role === 'user' && (
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+            <Link to="/connect-instagram">
+              <button style={{
+                padding: '12px 24px',
+                backgroundColor: 'var(--main-color)',
+                color: 'white',
+                fontSize: '16px',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer'
+              }}>
+                Connecter mon compte Instagram
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

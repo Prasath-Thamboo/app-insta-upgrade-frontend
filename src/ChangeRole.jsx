@@ -5,7 +5,8 @@ import axios from 'axios';
 
 export default function ChangeRole() {
   const { id } = useParams();
-  const [role, setRole] = useState('user');
+  const [role, setRole] = useState('');
+  const [username, setUsername] = useState('');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
@@ -14,7 +15,10 @@ export default function ChangeRole() {
       headers: { Authorization: `Bearer ${token}` },
     }).then(res => {
       const user = res.data.find(u => u._id === id);
-      if (user) setRole(user.role);
+      if (user) {
+        setRole(user.role);
+        setUsername(user.username || user.email);
+      }
     });
   }, [id, token]);
 
@@ -24,22 +28,65 @@ export default function ChangeRole() {
       await axios.put(`http://localhost:3001/api/admin/users/${id}/role`, { role }, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      alert('✅ Rôle mis à jour avec succès.');
       navigate('/admin');
     } catch {
-      alert('Erreur lors du changement de rôle');
+      alert('❌ Erreur lors du changement de rôle');
     }
   };
 
   return (
-    <div className="body-sim2">
-      <h2>Changer le rôle</h2>
-      <form onSubmit={handleChange}>
-        <select value={role} onChange={(e) => setRole(e.target.value)}>
-          <option value="user">Utilisateur</option>
-          <option value="admin">Administrateur</option>
-        </select>
-        <button type="submit">Valider</button>
-      </form>
+    <div style={{
+      minHeight: '100vh',
+      background: '#f3f4f6',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '20px'
+    }}>
+      <div style={{
+        background: 'white',
+        padding: '40px',
+        borderRadius: '12px',
+        boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+        width: '100%',
+        maxWidth: '400px'
+      }}>
+        <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>
+          Modifier le rôle de <span style={{ color: '#3b82f6' }}>{username}</span>
+        </h2>
+        <form onSubmit={handleChange}>
+          <label style={{ fontWeight: 'bold' }}>Nouveau rôle :</label>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '10px',
+              marginTop: '10px',
+              marginBottom: '20px',
+              borderRadius: '6px',
+              border: '1px solid #ccc'
+            }}
+          >
+            <option value="user">Utilisateur</option>
+            <option value="admin">Administrateur</option>
+            <option value="freeuser">Free Utilisateur</option>
+          </select>
+          <button type="submit" style={{
+            width: '100%',
+            padding: '12px',
+            backgroundColor: '#3b82f6',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}>
+            ✅ Valider
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
