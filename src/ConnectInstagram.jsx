@@ -4,15 +4,19 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const ConnectInstagram = () => {
   const handleConnect = () => {
-    // Redirection vers l'URL OAuth (sera à remplacer par la vraie URL plus tard)
-    window.location.href = 'https://www.facebook.com/v19.0/dialog/oauth?' +
-      new URLSearchParams({
-        client_id: import.meta.env.VITE_INSTAGRAM_CLIENT_ID,
-        redirect_uri: import.meta.env.VITE_INSTAGRAM_REDIRECT_URI,
-        scope: 'user_profile,user_media',
-        response_type: 'code',
-      }).toString();
-  };
+    console.log("📤 URI envoyé à Facebook (frontend):", import.meta.env.VITE_INSTAGRAM_REDIRECT_URI);
+    console.log("🔑 ID Client envoyé (frontend):", import.meta.env.VITE_INSTAGRAM_CLIENT_ID);
+
+  // Redirection vers l'URL OAuth
+  window.location.href = 'https://www.facebook.com/v19.0/dialog/oauth?' +
+    new URLSearchParams({
+      client_id: import.meta.env.VITE_INSTAGRAM_CLIENT_ID,
+      redirect_uri: import.meta.env.VITE_INSTAGRAM_REDIRECT_URI,
+      scope: 'pages_show_list,instagram_basic,instagram_manage_insights',
+      response_type: 'code',
+    }).toString();
+};
+
 
   return (
     <div style={{

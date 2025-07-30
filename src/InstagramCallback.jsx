@@ -16,20 +16,26 @@ const InstagramCallback = () => {
       return;
     }
 
+    let called = false;
+
     const exchangeCode = async () => {
+      if (called) return;
+      called = true;
+
       try {
-        await axios.post('http://localhost:3001/api/instagram/exchange-code', {
-          code,
-        }, {
+        await axios.post('http://localhost:3001/api/instagram/exchange-code', { code }, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           }
         });
 
         setMessage('Connexion Instagram réussie. Redirection...');
-        setTimeout(() => navigate('/dashboard'), 2000);
+        setTimeout(() => {
+          window.history.replaceState({}, document.title, "/dashboard"); // Nettoie l’URL
+          navigate('/dashboard');
+        }, 2000);
       } catch (err) {
-        console.error(err);
+        console.error(err.response?.data || err.message);
         setMessage("Erreur lors de la connexion à Instagram.");
       }
     };
@@ -45,7 +51,10 @@ const InstagramCallback = () => {
       justifyContent: 'center',
       background: '#f0f2f5',
       fontSize: '18px',
-      fontWeight: '500'
+      fontWeight: '500',
+      color: '#333',
+      padding: '20px',
+      textAlign: 'center',
     }}>
       {message}
     </div>
