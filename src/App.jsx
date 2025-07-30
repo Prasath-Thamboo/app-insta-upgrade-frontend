@@ -1,10 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+
 import ConnectInstagram from './ConnectInstagram';
 import Login from './Login';
 import Register from './Register';
 import Dashboard from './Dashboard';
+import Footer from './Footer';
 import Profile from './Profile';
 import AdminDashboard from './AdminDashboard';
 import EditUser from './EditUser';
@@ -16,7 +18,11 @@ import PaymentCancelled from './PaymentCancelled';
 import InstagramCallback from './InstagramCallback';
 import Contact from './Contact';
 
-
+// Pages légales RGPD
+import PrivacyPolicy from './PrivacyPolicy';
+import LegalNotice from './LegalNotice';
+import TermsAndConditions from './TermsAndConditions';
+import CookiesPolicy from './CookiesPolicy';
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const token = localStorage.getItem('token');
@@ -55,11 +61,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        
         <Route path="/instagram-callback" element={<InstagramCallback />} />
-
         <Route path="/connect-instagram" element={<ConnectInstagram />} />
-
         <Route path="/contact" element={<Contact />} />
 
         {/* Auth */}
@@ -118,9 +121,18 @@ function App() {
           }
         />
 
+        {/* Pages légales RGPD */}
+        <Route path="/politique-confidentialite" element={<PrivacyPolicy />} />
+        <Route path="/mentions-legales" element={<LegalNotice />} />
+        <Route path="/conditions-utilisation" element={<TermsAndConditions />} />
+        <Route path="/cookiesPolicy" element={<CookiesPolicy />} />
+
         {/* Redirection par défaut */}
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
+
+      {/* Footer affiché sur toutes les pages */}
+      <Footer />
     </Router>
   );
 }
