@@ -52,6 +52,7 @@ export default function Login() {
           onChange={(e) => setEmailOrUsername(e.target.value)}
           placeholder="Email ou nom d'utilisateur"
           required
+          style={{border:'1px solid black'}}
         />
         <input
           type="password"
@@ -59,8 +60,9 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Mot de passe"
           required
+          style={{border:'1px solid black'}}
         />
-        <button type="submit" style={{ padding: '10px', backgroundColor: '#007BFF', color: 'white', fontSize: '16px' }}>
+        <button type="submit" style={{ padding: '10px', backgroundColor: 'var(--main-color)', color: 'var(--simple-color2)', fontSize: '16px' }}>
           Connexion
         </button>
       </form>

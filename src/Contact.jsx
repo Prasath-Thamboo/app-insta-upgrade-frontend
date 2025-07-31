@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import './App.css';
 
 
 const Contact = () => {
@@ -30,30 +31,32 @@ const Contact = () => {
   };
 
   return (
-    <div style={{ padding: "40px", margin: "auto", background:'var(--bg)' }}>
-      <div style={{ marginTop: '30px', textAlign: 'center' }}>
-        <Link to="/dashboard">
-          <button style={{ backgroundColor: '#007BFF', color: 'white', padding: '10px 20px' }}>
-            ← Retour au dashboard
-          </button>
-        </Link>
+    <div className='body-sim2'>
+      <div style={{maxWidth:'800px', margin:'auto', background:'var(--main-color)', padding:'20px', borderRadius:'20px'}}>
+        <div style={{ marginTop: '30px', textAlign: 'center' }}>
+          <Link to="/dashboard">
+            <button>
+              ← Retour au dashboard
+            </button>
+          </Link>
+        </div>
+        <h1 style={{textAlign:'center'}}>Contactez l’administrateur</h1>
+        <form onSubmit={handleSubmit} style={{display:'flex', gap:'20px'}}>
+          <input type="text" name="firstname" placeholder="Prénom" value={form.firstname} onChange={handleChange} required />
+          <input type="text" name="lastname" placeholder="Nom" value={form.lastname} onChange={handleChange} required />
+          <input type="email" name="email" placeholder="Votre email" value={form.email} onChange={handleChange} required />
+          <textarea 
+            name="message" 
+            placeholder="Votre message" 
+            value={form.message} 
+            onChange={handleChange} required 
+            style={{width:'600px', height:'100px'}}
+          />
+          <button type="submit">Envoyer</button>
+        </form>
+        {status && <p style={{ marginTop: "15px" }}>{status}</p>}
+        </div>
       </div>
-      <h2 style={{textAlign:'center'}}>Contactez l’administrateur</h2>
-      <form onSubmit={handleSubmit} style={{display:'flex', gap:'20px'}}>
-        <input type="text" name="firstname" placeholder="Prénom" value={form.firstname} onChange={handleChange} required />
-        <input type="text" name="lastname" placeholder="Nom" value={form.lastname} onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Votre email" value={form.email} onChange={handleChange} required />
-        <textarea 
-          name="message" 
-          placeholder="Votre message" 
-          value={form.message} 
-          onChange={handleChange} required 
-          style={{width:'1000px', height:'100px'}}
-        />
-        <button type="submit">Envoyer</button>
-      </form>
-      {status && <p style={{ marginTop: "15px" }}>{status}</p>}
-    </div>
   );
 };
 

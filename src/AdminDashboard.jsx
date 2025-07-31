@@ -42,7 +42,7 @@ export default function AdminDashboard() {
         style={{
           marginBottom: '30px',
           padding: '10px 20px',
-          backgroundColor: '#007BFF',
+          backgroundColor: 'var(--main-color)',
           color: 'white',
           border: 'none',
           borderRadius: '6px',
@@ -110,12 +110,13 @@ const thStyle = {
   textAlign: 'left',
   padding: '12px',
   fontWeight: 'bold',
-  borderBottom: '2px solid #ccc',
+  borderBottom: '2px solid var(--simple-color)',
 };
 
 const tdStyle = {
   padding: '10px',
   verticalAlign: 'middle',
+  color: 'var(--simple-color)'
 };
 
 const actionBtnStyle = {

@@ -116,11 +116,18 @@ export default function Profile() {
 
 
   return (
-    <div className="body-sim" style={{ height:'100%', padding: '60px 20px', display: 'flex', justifyContent: 'center' }}>
-      <div style={{maxWidth: '600px', width: '100%', background: 'tomato', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+    <div className="body-sim" style={{height:'100%'}}>
+      <div style={{maxWidth: '600px', width: '100%', background: 'var(--main-color)', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
         <div style={{ marginTop: '30px', textAlign: 'center' }}>
           <Link to="/dashboard">
-            <button style={{ backgroundColor: 'var(--main-color)', color: 'white', padding: '10px 20px' }}>
+            <button style={{ 
+              backgroundColor: 'var(--main-color)', 
+              color: 'white', 
+              padding: '10px 20px',
+              background: 'var(--bg)',
+              fontWeight:'bold',
+              border: 'none'
+              }}>
               ← Retour au dashboard
             </button>
           </Link>
@@ -128,18 +135,18 @@ export default function Profile() {
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <h2>Profil utilisateur</h2>
           {profilePicture && <img src={profilePicture} alt="Profil" style={{ width: '100px', height: '100px', borderRadius: '50%', marginTop: '10px' }} />}
-          <p style={{ color: '#555' }}>Connecté en tant que <strong>{username}</strong></p>
+          <p style={{ color: 'var(--simple-color2)' }}>Connecté en tant que <strong>{username}</strong></p>
         </div>
 
         <form onSubmit={handleUsernameChange} style={{ marginBottom: '20px' }}>
           <label>Nom d’utilisateur</label>
-          <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: 'none', backgroundColor:'lightgrey'  }} />
+          <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: 'none', backgroundColor:'var(--simple-color2)', color:'var(--simple-color)'  }} />
           <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Modifier</button>
         </form>
 
         <form onSubmit={handlePasswordChange} style={{ marginBottom: '20px' }}>
           <label>Nouveau mot de passe</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: 'none', backgroundColor:'lightgrey' }} />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: 'none', backgroundColor:'var(--simple-color2)', color:'var(--simple-color)' }} />
           <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Changer le mot de passe</button>
         </form>
 
@@ -150,16 +157,25 @@ export default function Profile() {
         </form>
         
         <div style={{ marginTop: '30px' }}>
-  <h3>Choisir le design du dashboard :</h3>
-  <select value={style} onChange={(e) => setStyle(e.target.value)} style={{ padding: '8px', borderRadius: '5px' }}>
-    <option value="classic">Classique</option>
-    <option value="modern">Moderne</option>
-    <option value="minimal">Minimal</option>
-    <option value="neon">Neon</option>
-    <option value="glass">Glassmorphism</option>
-  </select>
-  <button onClick={updateStyle} style={{ marginLeft: '10px', padding: '8px 16px' }}>Enregistrer</button>
-</div>
+          <h3>Choisir le design du dashboard :</h3>
+          <select value={style} onChange={(e) => setStyle(e.target.value)} style={{ padding: '8px', borderRadius: '5px' }}>
+            <option value="classic">Classique</option>
+            <option value="modern">Moderne</option>
+            <option value="minimal">Minimal</option>
+            <option value="neon">Neon</option>
+            <option value="glass">Glassmorphism</option>
+          </select>
+          <button 
+            onClick={updateStyle} 
+            style={{
+              marginLeft: '10px', 
+              padding: '8px 16px', 
+              background: 'var(--bg)',
+              border: 'none',
+              fontWeight:'bold'
+            }}> Enregistrer
+          </button>
+        </div>
 
 
         <button onClick={() => setShowConfirm(true)} style={{ width: '100%', backgroundColor: 'red', color: 'white', marginTop: '20px' }}>Supprimer mon compte</button>

@@ -41,7 +41,7 @@ export default function Register() {
   if (consent === null) {
     return (
       <div className="body-sim2" style={{ flexDirection: 'column', padding: '20px' }}>
-        <h2 style={{ marginBottom: '20px' }}>Avez-vous un compte Instagram Professionnel ?</h2>
+        <h1 style={{ marginBottom: '20px' }}>Avez-vous un compte Instagram Professionnel ?</h1>
         <div>
           <button onClick={() => setConsent(true)} style={{ marginRight: '10px' }}>Oui</button>
           <button onClick={() => setConsent(false)} style={{ backgroundColor: 'tomato', color: 'white' }}>Non</button>
@@ -62,7 +62,7 @@ export default function Register() {
   return (
     <div className="body-sim2">
       <h1 style={{ marginBottom: '10px' }}>Créer un compte</h1>
-      <p style={{ marginBottom: '20px' }}>Remplissez les informations ci-dessous</p>
+      <p style={{ marginBottom: '20px', color:'var(--simple-color' }}>Remplissez les informations ci-dessous</p>
 
       {message && <p style={{ color: submitted ? 'green' : 'red', marginBottom: '10px' }}>{message}</p>}
 
@@ -90,7 +90,7 @@ export default function Register() {
             required
           />
 
-          <button type="submit" style={{ padding: '10px', backgroundColor: '#007BFF', color: 'white', fontSize: '16px' }}>
+          <button type="submit" style={{ padding: '10px', backgroundColor: 'var(--main-color)', color: 'var(--simple-color2)', fontSize: '16px' }}>
             S’inscrire
           </button>
         </form>
@@ -100,7 +100,7 @@ export default function Register() {
         </p>
       )}
 
-      <p style={{ marginTop: '20px' }}>
+      <p style={{ marginTop: '20px', color:'var(--simple-color)' }}>
         Déjà un compte ? <Link to="/login"><strong>Connectez-vous</strong></Link>
       </p>
     </div>
