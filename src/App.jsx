@@ -17,6 +17,7 @@ import PaymentSuccess from './PaymentSuccess';
 import PaymentCancelled from './PaymentCancelled';
 import InstagramCallback from './InstagramCallback';
 import Contact from './Contact';
+import StartTrial from './StartTrial'
 
 // Pages légales RGPD
 import PrivacyPolicy from './PrivacyPolicy';
@@ -91,6 +92,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/start-trial"
+          element={
+            <ProtectedRoute>
+              <StartTrial />
             </ProtectedRoute>
           }
         />

@@ -13,6 +13,7 @@ function Dashboard() {
   const [design, setDesign] = useState('classic');
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [instagramToken, setInstagramToken] = useState(null);
+  const [trialStart, setTrialStart] = useState(null);
   const lastFollowers = useRef(null);
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ function Dashboard() {
       setDesign(res.data.dashboardStyle);
       setIsSubscribed(res.data.isSubscribed);
       setInstagramToken(res.data.instagramToken);
+      setTrialStart(res.data.trialStart);
     } catch (err) {
       console.error('Erreur lors de la récupération des infos utilisateur :', err);
     }
@@ -75,6 +77,8 @@ function Dashboard() {
     ));
   };
 
+  const trialEndDate = trialStart ? new Date(new Date(trialStart).getTime() + 7 * 24 * 60 * 60 * 1000) : null;
+
   return (
     <div className={`body-sim ${design}`}>
       <header style={{
@@ -106,7 +110,7 @@ function Dashboard() {
               padding: '10px',
               zIndex: 10
             }}>
-              {(role === 'user' || role === 'admin') && (
+              {(role === 'user' || role === 'admin'|| role ==='testeur') && (
                 <Link to="/profile">
                   <button style={{ display: 'block', marginBottom: '10px' }}>Mon compte</button>
                 </Link>
@@ -164,27 +168,26 @@ function Dashboard() {
           </div>
         )}
 
-        {role === 'freeuser' && !isSubscribed && (
-          <div style={{ marginTop: '30px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        {(role === 'freeuser' && !isSubscribed) && (
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
             <Link to="/subscribe">
               <button style={{
                 padding: '12px 24px',
-                backgroundColor: '#28a745',
-                color: 'white',
-                fontSize: '16px',
+                marginRight: '10px',
+                backgroundColor: 'var(--main-color)',
+                color: 'var(--simple-color2)',
                 border: 'none',
                 borderRadius: '5px',
                 cursor: 'pointer'
               }}>
-                S'abonner
+                S’abonner
               </button>
             </Link>
-            <Link to="/register">
+            <Link to="/start-trial">
               <button style={{
                 padding: '12px 24px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                fontSize: '16px',
+                backgroundColor: 'orange',
+                color: 'var(--simple-color2)',
                 border: 'none',
                 borderRadius: '5px',
                 cursor: 'pointer'
@@ -192,6 +195,12 @@ function Dashboard() {
                 Tester pendant 7 jours
               </button>
             </Link>
+          </div>
+        )}
+
+        {(role === 'testeur') && trialEndDate && (
+          <div style={{ marginTop: '30px', textAlign: 'center', color: 'orange', fontWeight: 'bold' }}>
+            ⏳ Essai gratuit en cours jusqu’au : {trialEndDate.toLocaleDateString('fr-FR')}
           </div>
         )}
       </div>
