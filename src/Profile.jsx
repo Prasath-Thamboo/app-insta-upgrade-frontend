@@ -1,4 +1,3 @@
-// Profile.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -13,6 +12,8 @@ export default function Profile() {
   const [message, setMessage] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
   const [style, setStyle] = useState('classic');
+  const [instagramToken, setInstagramToken] = useState('');
+  const [role, setRole] = useState('');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
@@ -26,7 +27,8 @@ export default function Profile() {
         setNewUsername(res.data.username);
         setProfilePicture(res.data.profilePicture);
         setStyle(res.data.dashboardStyle || 'classic');
-
+        setRole(res.data.role);
+        setInstagramToken(res.data.instagramToken || '');
       } catch (err) {
         console.error(err);
       }
@@ -102,60 +104,136 @@ export default function Profile() {
   };
 
   const updateStyle = async () => {
-  try {
-    await axios.put('http://localhost:3001/api/update-style', {
-      dashboardStyle: style,
-    }, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setMessage('Style mis à jour.');
-  } catch (err) {
-    setMessage('Erreur lors de la mise à jour du style');
-  }
-};
+    try {
+      await axios.put(
+        'http://localhost:3001/api/update-style',
+        { dashboardStyle: style },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMessage('Style mis à jour.');
+    } catch (err) {
+      setMessage('Erreur lors de la mise à jour du style');
+    }
+  };
 
+  const handleInstagramTokenChange = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(
+        'http://localhost:3001/api/users/token',
+        { instagramToken },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMessage('Token Instagram mis à jour.');
+    } catch (err) {
+      console.error(err);
+      setMessage('Erreur lors de la mise à jour du token Instagram');
+    }
+  };
 
   return (
-    <div className="body-sim" style={{height:'100%'}}>
-      <div style={{maxWidth: '600px', width: '100%', background: 'var(--main-color)', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+    <div className="body-sim" style={{ height: '100%' }}>
+      <div
+        style={{
+          maxWidth: '600px',
+          width: '100%',
+          background: 'var(--main-color)',
+          padding: '30px',
+          borderRadius: '10px',
+          boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+        }}
+      >
         <div style={{ marginTop: '30px', textAlign: 'center' }}>
           <Link to="/dashboard">
-            <button style={{ 
-              backgroundColor: 'var(--main-color)', 
-              color: 'white', 
-              padding: '10px 20px',
-              background: 'var(--bg)',
-              fontWeight:'bold',
-              border: 'none'
-              }}>
+            <button
+              style={{
+                backgroundColor: 'var(--main-color)',
+                color: 'white',
+                padding: '10px 20px',
+                background: 'var(--bg)',
+                fontWeight: 'bold',
+                border: 'none',
+              }}
+            >
               ← Retour au dashboard
             </button>
           </Link>
         </div>
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <h2>Profil utilisateur</h2>
-          {profilePicture && <img src={profilePicture} alt="Profil" style={{ width: '100px', height: '100px', borderRadius: '50%', marginTop: '10px' }} />}
-          <p style={{ color: 'var(--simple-color2)' }}>Connecté en tant que <strong>{username}</strong></p>
+          {profilePicture && (
+            <img
+              src={profilePicture}
+              alt="Profil"
+              style={{ width: '100px', height: '100px', borderRadius: '50%', marginTop: '10px' }}
+            />
+          )}
+          <p style={{ color: 'var(--simple-color2)' }}>
+            Connecté en tant que <strong>{username}</strong>
+          </p>
         </div>
 
+        {/* Modification du nom d'utilisateur */}
         <form onSubmit={handleUsernameChange} style={{ marginBottom: '20px' }}>
           <label>Nom d’utilisateur</label>
-          <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: 'none', backgroundColor:'var(--simple-color2)', color:'var(--simple-color)'  }} />
-          <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Modifier</button>
+          <input
+            type="text"
+            value={newUsername}
+            onChange={(e) => setNewUsername(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '10px',
+              marginTop: '5px',
+              borderRadius: '5px',
+              border: 'none',
+              backgroundColor: 'var(--simple-color2)',
+              color: 'var(--simple-color)',
+            }}
+          />
+          <button type="submit" style={{ marginTop: '10px', width: '100%' }}>
+            Modifier
+          </button>
         </form>
 
+        {/* Modification du mot de passe */}
         <form onSubmit={handlePasswordChange} style={{ marginBottom: '20px' }}>
           <label>Nouveau mot de passe</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '5px', border: 'none', backgroundColor:'var(--simple-color2)', color:'var(--simple-color)' }} />
-          <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Changer le mot de passe</button>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '10px',
+              marginTop: '5px',
+              borderRadius: '5px',
+              border: 'none',
+              backgroundColor: 'var(--simple-color2)',
+              color: 'var(--simple-color)',
+            }}
+          />
+          <button type="submit" style={{ marginTop: '10px', width: '100%' }}>
+            Changer le mot de passe
+          </button>
         </form>
 
+        {/* Uploader la photo de profil */}
         <form onSubmit={handleImageUpload} style={{ marginBottom: '20px' }}>
           <label>Photo de profil</label>
-          <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} style={{ width: '100%', marginTop: '5px' }} />
-          <button type="submit" style={{ marginTop: '10px', width: '100%' }}>Uploader</button>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFile(e.target.files[0])}
+            style={{ width: '100%', marginTop: '5px' }}
+          />
+          <button type="submit" style={{ marginTop: '10px', width: '100%' }}>
+            Uploader
+          </button>
         </form>
-        
+
+        {/* Modification du design du dashboard */}
         <div style={{ marginTop: '30px' }}>
           <h3>Choisir le design du dashboard :</h3>
           <select value={style} onChange={(e) => setStyle(e.target.value)} style={{ padding: '8px', borderRadius: '5px' }}>
@@ -165,32 +243,76 @@ export default function Profile() {
             <option value="neon">Neon</option>
             <option value="glass">Glassmorphism</option>
           </select>
-          <button 
-            onClick={updateStyle} 
+          <button
+            onClick={updateStyle}
             style={{
-              marginLeft: '10px', 
-              padding: '8px 16px', 
+              marginLeft: '10px',
+              padding: '8px 16px',
               background: 'var(--bg)',
               border: 'none',
-              fontWeight:'bold'
-            }}> Enregistrer
+              fontWeight: 'bold',
+            }}
+          >
+            Enregistrer
           </button>
         </div>
 
+        {/* Mise à jour du token Instagram uniquement pour les users et testeurs */}
+        {(role === 'user' || role === 'testeur') && (
+          <form onSubmit={handleInstagramTokenChange} style={{ marginTop: '30px' }}>
+            <label>Token Instagram</label>
+            <input
+              type="text"
+              value={instagramToken}
+              onChange={(e) => setInstagramToken(e.target.value)}
+              placeholder="Entrez votre token Instagram"
+              style={{
+                width: '100%',
+                padding: '10px',
+                marginTop: '5px',
+                borderRadius: '5px',
+                border: 'none',
+                backgroundColor: 'var(--simple-color2)',
+                color: 'var(--simple-color)',
+              }}
+            />
+            <button type="submit" style={{ marginTop: '10px', width: '100%' }}>
+              Mettre à jour le Token
+            </button>
+          </form>
+        )}
 
-        <button onClick={() => setShowConfirm(true)} style={{ width: '100%', backgroundColor: 'red', color: 'white', marginTop: '20px' }}>Supprimer mon compte</button>
+        {/* Suppression du compte */}
+        <button
+          onClick={() => setShowConfirm(true)}
+          style={{ width: '100%', backgroundColor: 'red', color: 'white', marginTop: '20px' }}
+        >
+          Supprimer mon compte
+        </button>
 
         {showConfirm && (
-          <div style={{ marginTop: '20px', backgroundColor: 'grey', padding: '15px', borderRadius: '5px', textAlign: 'center' }}>
-            <p><strong>⚠️ Cette action est irréversible. Voulez-vous vraiment supprimer votre compte ?</strong></p>
-            <button onClick={handleDeleteAccount} style={{ margin: '5px', backgroundColor: 'red', color: 'white' }}>Oui, supprimer</button>
-            <button onClick={() => setShowConfirm(false)} style={{ margin: '5px' }}>Annuler</button>
+          <div
+            style={{
+              marginTop: '20px',
+              backgroundColor: 'grey',
+              padding: '15px',
+              borderRadius: '5px',
+              textAlign: 'center',
+            }}
+          >
+            <p>
+              <strong>⚠️ Cette action est irréversible. Voulez-vous vraiment supprimer votre compte ?</strong>
+            </p>
+            <button onClick={handleDeleteAccount} style={{ margin: '5px', backgroundColor: 'red', color: 'white' }}>
+              Oui, supprimer
+            </button>
+            <button onClick={() => setShowConfirm(false)} style={{ margin: '5px' }}>
+              Annuler
+            </button>
           </div>
         )}
 
         {message && <p style={{ marginTop: '20px', color: 'green', textAlign: 'center' }}>{message}</p>}
-
-        
       </div>
     </div>
   );

@@ -37,7 +37,7 @@ export default function Login() {
       {popup && <div className={`popup ${popup.type}`}>{popup.message}</div>}
 
       <h1 style={{ marginBottom: '10px' }}>Bienvenue au compteur de followers</h1>
-      <p style={{ marginBottom: '20px' }}>Connectez-vous juste en dessous</p>
+      <p style={{ marginBottom: '20px', color:'black' }}>Connectez-vous juste en dessous</p>
 
       <img src="/insta-logo.png" alt="Logo Instagram" style={{ width: '100px', marginBottom: '20px' }} />
 

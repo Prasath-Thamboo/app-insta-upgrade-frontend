@@ -38,7 +38,7 @@ export default function ChangeRole() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#f3f4f6',
+      background: 'var(--simple-color2)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -52,9 +52,9 @@ export default function ChangeRole() {
         width: '100%',
         maxWidth: '400px'
       }}>
-        <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>
-          Modifier le rôle de <span style={{ color: '#3b82f6' }}>{username}</span>
-        </h2>
+        <h1 style={{ marginBottom: '20px', textAlign: 'center' }}>
+          Modifier le rôle de <span style={{ color: 'var(--main-color)' }}>{username}</span>
+        </h1>
         <form onSubmit={handleChange}>
           <label style={{ fontWeight: 'bold' }}>Nouveau rôle :</label>
           <select
@@ -72,6 +72,8 @@ export default function ChangeRole() {
             <option value="user">Utilisateur</option>
             <option value="admin">Administrateur</option>
             <option value="freeuser">Free Utilisateur</option>
+            <option value="testeur">Testeur</option>
+
           </select>
           <button type="submit" style={{
             width: '100%',

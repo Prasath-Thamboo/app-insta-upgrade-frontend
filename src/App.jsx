@@ -16,6 +16,7 @@ import StripeCheckout from './StripeCheckout';
 import PaymentSuccess from './PaymentSuccess';
 import PaymentCancelled from './PaymentCancelled';
 import InstagramCallback from './InstagramCallback';
+import GetInstaToken from './GetInstaToken'; 
 import Contact from './Contact';
 import StartTrial from './StartTrial'
 
@@ -62,6 +63,8 @@ function App() {
   return (
     <Router>
       <Routes>
+
+        <Route path="/get-instagram-token" element={<GetInstaToken/>} />
         <Route path="/instagram-callback" element={<InstagramCallback />} />
         <Route path="/connect-instagram" element={<ConnectInstagram />} />
         <Route path="/contact" element={<Contact />} />

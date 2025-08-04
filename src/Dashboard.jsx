@@ -110,11 +110,9 @@ function Dashboard() {
               padding: '10px',
               zIndex: 10
             }}>
-              {(role === 'user' || role === 'admin'|| role ==='testeur') && (
-                <Link to="/profile">
-                  <button style={{ display: 'block', marginBottom: '10px' }}>Mon compte</button>
-                </Link>
-              )}
+              <Link to="/profile">
+                <button style={{ display: 'block', marginBottom: '10px' }}>Mon compte</button>
+              </Link>
 
               {role === 'admin' && (
                 <Link to="/admin">
@@ -122,7 +120,7 @@ function Dashboard() {
                 </Link>
               )}
 
-              {(role === 'user' || role === 'freeuser') && (
+              {(role === 'user' || role === 'freeuser' || role === 'testeur') && (
                 <Link to="/contact">
                   <button style={{ display: 'block', marginBottom: '10px' }}>Contact</button>
                 </Link>
@@ -149,24 +147,6 @@ function Dashboard() {
           />
         </div>
         <div className="title-container">{renderDigits()}</div>
-
-        {role === 'user' && !instagramToken && (
-          <div style={{ marginTop: '20px', textAlign: 'center' }}>
-            <Link to="/connect-instagram">
-              <button style={{
-                padding: '12px 24px',
-                background: 'var(--bg)',
-                color: 'white',
-                fontSize: '16px',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer'
-              }}>
-                Connecter mon compte Instagram
-              </button>
-            </Link>
-          </div>
-        )}
 
         {(role === 'freeuser' && !isSubscribed) && (
           <div style={{ marginTop: '20px', textAlign: 'center' }}>
@@ -203,6 +183,42 @@ function Dashboard() {
             ⏳ Essai gratuit en cours jusqu’au : {trialEndDate.toLocaleDateString('fr-FR')}
           </div>
         )}
+
+        
+
+        {(role === 'user' || role === 'testeur') && !instagramToken && (
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+            <Link to="/connect-instagram">
+              <button style={{
+                padding: '12px 24px',
+                backgroundColor: 'var(--main-color)',
+                color: 'white',
+                fontSize: '16px',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer'
+              }}>
+                Connecter mon compte Instagram
+              </button>
+            </Link>
+
+            {/* Nouveau bouton pour accéder à la page GetInstagramToken */}
+            <Link to="/get-instagram-token">
+              <button style={{
+                padding: '12px 24px',
+                marginTop: '10px',
+                backgroundColor: 'var(--main-color)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer'
+              }}>
+                Obtenir mon token Instagram
+              </button>
+            </Link>
+          </div>
+        )}
+
       </div>
     </div>
   );

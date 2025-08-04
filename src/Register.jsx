@@ -52,9 +52,9 @@ export default function Register() {
 
   if (consent === false) {
     return (
-      <div className="body-sim2" style={{ padding: '20px', textAlign: 'center' }}>
-        <h2>Vous devez créer un compte Instagram Professionnel avant de procéder à l'inscription</h2>
-        <button onClick={() => setConsent(null)} style={{ marginTop: '20px' }}>Retour</button>
+      <div className="body-sim2" style={{ textAlign: 'center' }}>
+        <h1>Vous devez créer un compte Instagram Professionnel avant de procéder à l'inscription</h1>
+        <button onClick={() => setConsent(null)} style={{ marginTop: '10px' }}>Retour</button>
       </div>
     );
   }

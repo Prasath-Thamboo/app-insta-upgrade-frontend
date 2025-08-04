@@ -21,7 +21,8 @@ const StartTrial = () => {
         setTimeout(() => navigate('/dashboard'), 2000);
       } catch (err) {
         console.error(err);
-        setMessage("Erreur lors de l’activation de l’essai gratuit.");
+        setMessage("Erreur lors de l’activation de l’essai gratuit. Si vous avez déjà tester notre application, cette erreur est normale ");
+        setTimeout(() => navigate('/dashboard'), 4000);
       }
     };
 
@@ -34,9 +35,9 @@ const StartTrial = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      background: '#f9f9f9',
+      background: 'var(--bg)',
       fontSize: '18px',
-      fontWeight: '500'
+      fontWeight: '700',
     }}>
       {message}
     </div>
