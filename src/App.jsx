@@ -18,13 +18,15 @@ import PaymentCancelled from './PaymentCancelled';
 import InstagramCallback from './InstagramCallback';
 import GetInstaToken from './GetInstaToken'; 
 import Contact from './Contact';
-import StartTrial from './StartTrial'
+import StartTrial from './StartTrial';
 
-// Pages légales RGPD
 import PrivacyPolicy from './PrivacyPolicy';
 import LegalNotice from './LegalNotice';
 import TermsAndConditions from './TermsAndConditions';
 import CookiesPolicy from './CookiesPolicy';
+
+import CookieBanner from './CookieBanner'; // Assure-toi que le chemin est correct
+import { loadGoogleAnalytics } from './utils/analytics.js';
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const token = localStorage.getItem('token');
@@ -60,11 +62,17 @@ function ProtectedRoute({ children, adminOnly = false }) {
 }
 
 function App() {
+  useEffect(() => {
+    const consent = localStorage.getItem('cookie-consent');
+    if (consent === 'true') {
+      loadGoogleAnalytics();
+    }
+  }, []);
+
   return (
     <Router>
       <Routes>
-
-        <Route path="/get-instagram-token" element={<GetInstaToken/>} />
+        <Route path="/get-instagram-token" element={<GetInstaToken />} />
         <Route path="/instagram-callback" element={<InstagramCallback />} />
         <Route path="/connect-instagram" element={<ConnectInstagram />} />
         <Route path="/contact" element={<Contact />} />
@@ -72,8 +80,6 @@ function App() {
         {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        {/* Vérification d'email */}
         <Route path="/verify-email/:token" element={<EmailConfirmation />} />
 
         {/* Stripe Paiement */}
@@ -143,7 +149,10 @@ function App() {
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
 
-      {/* Footer affiché sur toutes les pages */}
+      {/* ✅ Bannière cookies affichée en bas de page */}
+      <CookieBanner />
+
+      {/* ✅ Footer toujours affiché */}
       <Footer />
     </Router>
   );
