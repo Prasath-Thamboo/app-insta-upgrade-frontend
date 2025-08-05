@@ -19,6 +19,8 @@ import InstagramCallback from './InstagramCallback';
 import GetInstaToken from './GetInstaToken'; 
 import Contact from './Contact';
 import StartTrial from './StartTrial';
+import Loader from './Loader';
+
 
 import PrivacyPolicy from './PrivacyPolicy';
 import LegalNotice from './LegalNotice';
@@ -56,7 +58,7 @@ function ProtectedRoute({ children, adminOnly = false }) {
     }
   }, [token, adminOnly]);
 
-  if (authorized === null) return <p>Chargement...</p>;
+  if (authorized === null) return <Loader />;
   if (!authorized) return <Navigate to="/login" />;
   return children;
 }
