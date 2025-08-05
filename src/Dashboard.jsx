@@ -21,7 +21,7 @@ function Dashboard() {
 
   const fetchUserInfo = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/me', {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsername(res.data.username);
@@ -38,7 +38,7 @@ function Dashboard() {
 
   const fetchFollowers = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/followers', {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/followers`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

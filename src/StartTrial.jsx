@@ -11,7 +11,7 @@ const StartTrial = () => {
       const token = localStorage.getItem('token');
 
       try {
-        await axios.post('http://localhost:3001/api/start-trial', {}, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/start-trial`, {}, {
           headers: {
             Authorization: `Bearer ${token}`,
           }

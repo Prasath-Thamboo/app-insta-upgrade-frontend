@@ -23,7 +23,7 @@ const InstagramCallback = () => {
       called = true;
 
       try {
-        await axios.post('http://localhost:3001/api/instagram/exchange-code', { code }, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/instagram/exchange-code`, { code }, {
           headers: {
             Authorization: `Bearer ${token}`,
           }

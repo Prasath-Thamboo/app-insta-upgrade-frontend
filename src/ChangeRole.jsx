@@ -11,7 +11,7 @@ export default function ChangeRole() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/admin/users', {
+    axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`, {
       headers: { Authorization: `Bearer ${token}` },
     }).then(res => {
       const user = res.data.find(u => u._id === id);
@@ -25,7 +25,7 @@ export default function ChangeRole() {
   const handleChange = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3001/api/admin/users/${id}/role`, { role }, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}/role`, { role }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert('✅ Rôle mis à jour avec succès.');

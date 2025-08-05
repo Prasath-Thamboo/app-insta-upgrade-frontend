@@ -14,7 +14,7 @@ export default function EditUser() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/admin/users`, {
+    axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then((res) => {
@@ -31,7 +31,7 @@ export default function EditUser() {
     e.preventDefault();
     try {
       // 1. Mettre à jour les infos générales
-      await axios.put(`http://localhost:3001/api/admin/users/${id}`, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}`, {
         email,
         username,
       }, {
@@ -39,7 +39,7 @@ export default function EditUser() {
       });
 
       // 2. Mettre à jour le token Instagram (peut être null)
-      await axios.put(`http://localhost:3001/api/admin/users/${id}/token`, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}/token`, {
         instagramToken: instagramToken.trim() === '' ? null : instagramToken.trim()
       }, {
         headers: { Authorization: `Bearer ${token}` }

@@ -4,8 +4,6 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const ConnectInstagram = () => {
   const handleConnect = () => {
-    console.log("📤 URI envoyé à Facebook (frontend):", import.meta.env.VITE_INSTAGRAM_REDIRECT_URI);
-    console.log("🔑 ID Client envoyé (frontend):", import.meta.env.VITE_INSTAGRAM_CLIENT_ID);
 
   // Redirection vers l'URL OAuth
   window.location.href = 'https://www.facebook.com/v19.0/dialog/oauth?' +

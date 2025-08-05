@@ -20,7 +20,7 @@ export default function Profile() {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const res = await axios.get('http://localhost:3001/api/me', {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsername(res.data.username);
@@ -40,7 +40,7 @@ export default function Profile() {
     e.preventDefault();
     try {
       await axios.put(
-        'http://localhost:3001/api/update-username',
+        `${import.meta.env.VITE_API_URL}/api/update-username`,
         { username: newUsername },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -56,7 +56,7 @@ export default function Profile() {
     e.preventDefault();
     try {
       await axios.put(
-        'http://localhost:3001/api/update-password',
+        `${import.meta.env.VITE_API_URL}/api/update-password`,
         { password },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -70,7 +70,7 @@ export default function Profile() {
 
   const handleDeleteAccount = async () => {
     try {
-      await axios.delete('http://localhost:3001/api/delete-account', {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/delete-account`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       localStorage.removeItem('token');
@@ -89,7 +89,7 @@ export default function Profile() {
     formData.append('image', file);
 
     try {
-      const res = await axios.post('http://localhost:3001/api/upload-profile-picture', formData, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/upload-profile-picture`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -106,7 +106,7 @@ export default function Profile() {
   const updateStyle = async () => {
     try {
       await axios.put(
-        'http://localhost:3001/api/update-style',
+        `${import.meta.env.VITE_API_URL}/api/update-style`,
         { dashboardStyle: style },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -120,7 +120,7 @@ export default function Profile() {
     e.preventDefault();
     try {
       await axios.post(
-        'http://localhost:3001/api/users/token',
+        `${import.meta.env.VITE_API_URL}/api/users/token`,
         { instagramToken },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -14,7 +14,7 @@ export default function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/admin/users', {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(res.data);
@@ -26,7 +26,7 @@ export default function AdminDashboard() {
   const deleteUser = async (id) => {
     if (!window.confirm('Confirmer la suppression ?')) return;
     try {
-      await axios.delete(`http://localhost:3001/api/admin/users/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(users.filter((u) => u._id !== id));
