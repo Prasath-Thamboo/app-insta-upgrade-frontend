@@ -1,17 +1,9 @@
-// utils/analytics.js
-
+// src/utils/analytics.js
 export const loadGoogleAnalytics = () => {
-  const consent = localStorage.getItem('cookie-consent');
-
-  // ✅ Charger GA uniquement si consentement explicite
-  if (consent !== 'true') return;
-
-  // ✅ Empêcher le double chargement
   if (window.gtag) return;
 
-  // ✅ Insère le script GA
   const script = document.createElement('script');
-  script.src = `https://www.googletagmanager.com/gtag/js?id=G-2J98FCS7RV`; // ⛳ Remplace par ton vrai ID
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-2J98FCS7RV'; // 👉 remplace par ton ID GA
   script.async = true;
   document.head.appendChild(script);
 
@@ -21,6 +13,6 @@ export const loadGoogleAnalytics = () => {
     window.gtag = gtag;
 
     gtag('js', new Date());
-    gtag('config', 'G-2J98FCS7RV'); // ⛳ Remplace ici aussi
+    gtag('config', 'G-2J98FCS7RV'); // 👉 remplace ici aussi
   };
 };

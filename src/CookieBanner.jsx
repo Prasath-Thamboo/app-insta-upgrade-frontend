@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { loadGoogleAnalytics } from './utils/analytics'; // 👈 À ajouter
 
 const CookieBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
@@ -8,13 +9,15 @@ const CookieBanner = () => {
     const consent = localStorage.getItem('cookie-consent');
     if (!consent) {
       setShowBanner(true);
+    } else if (consent === 'true') {
+      loadGoogleAnalytics(); // 👈 Charge GA si déjà accepté
     }
   }, []);
 
   const handleAccept = () => {
     localStorage.setItem('cookie-consent', 'true');
+    loadGoogleAnalytics(); // 👈 Charge GA sans recharger la page
     setShowBanner(false);
-    window.location.reload(); // pour charger Google Analytics si besoin
   };
 
   const handleDecline = () => {
