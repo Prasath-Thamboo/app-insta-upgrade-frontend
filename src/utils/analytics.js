@@ -11,7 +11,7 @@ export const loadGoogleAnalytics = () => {
 
   // ✅ Insère le script GA
   const script = document.createElement('script');
-  script.src = `https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX`; // ⛳ Remplace par ton vrai ID
+  script.src = `https://www.googletagmanager.com/gtag/js?id=G-2J98FCS7RV`; // ⛳ Remplace par ton vrai ID
   script.async = true;
   document.head.appendChild(script);
 
@@ -21,6 +21,6 @@ export const loadGoogleAnalytics = () => {
     window.gtag = gtag;
 
     gtag('js', new Date());
-    gtag('config', 'G-XXXXXXX'); // ⛳ Remplace ici aussi
+    gtag('config', 'G-2J98FCS7RV'); // ⛳ Remplace ici aussi
   };
 };
