@@ -32,29 +32,58 @@ const Contact = () => {
 
   return (
     <div className='body-sim2'>
-      <div style={{maxWidth:'800px', margin:'auto', background:'var(--main-color)', padding:'20px', borderRadius:'20px'}}>
-        <div style={{ marginTop: '30px', textAlign: 'center' }}>
-          <Link to="/dashboard">
-            <button>
-              ← Retour au dashboard
-            </button>
-          </Link>
-        </div>
-        <h1 style={{textAlign:'center'}}>Contactez l’administrateur</h1>
-        <form onSubmit={handleSubmit} style={{display:'flex', gap:'20px'}}>
-          <input type="text" name="firstname" placeholder="Prénom" value={form.firstname} onChange={handleChange} required />
-          <input type="text" name="lastname" placeholder="Nom" value={form.lastname} onChange={handleChange} required />
-          <input type="email" name="email" placeholder="Votre email" value={form.email} onChange={handleChange} required />
-          <textarea 
-            name="message" 
-            placeholder="Votre message" 
-            value={form.message} 
-            onChange={handleChange} required 
-            style={{width:'600px', height:'100px'}}
-          />
-          <button type="submit">Envoyer</button>
-        </form>
-        {status && <p style={{ marginTop: "15px" }}>{status}</p>}
+       <div className="contact-container">
+          <div className="return-button-wrapper">
+            <Link to="/dashboard">
+              <button className="back-button">← Retour au dashboard</button>
+            </Link>
+          </div>
+          
+          <h1 className="contact-title">Contactez l’administrateur</h1>
+          
+          <form onSubmit={handleSubmit} className="contact-form">
+            <fieldset className="form-fields">
+              <input 
+                type="text" 
+                name="firstname" 
+                placeholder="Prénom" 
+                value={form.firstname} 
+                onChange={handleChange} 
+                required 
+                aria-label="Prénom"
+              />
+              <input 
+                type="text" 
+                name="lastname" 
+                placeholder="Nom" 
+                value={form.lastname} 
+                onChange={handleChange} 
+                required 
+                aria-label="Nom"
+              />
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="Votre email" 
+                value={form.email} 
+                onChange={handleChange} 
+                required 
+                aria-label="Email"
+              />
+              <textarea 
+                name="message" 
+                placeholder="Votre message" 
+                value={form.message} 
+                onChange={handleChange} 
+                required 
+                aria-label="Message"
+                rows={5}
+              />
+            </fieldset>
+            <button type="submit" className="submit-button">Envoyer</button>
+          </form>
+
+          {status && <p className="form-status">{status}</p>}
         </div>
       </div>
   );
