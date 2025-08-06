@@ -12,7 +12,7 @@ const Footer = () => {
             onClick={() => setVisible(true)}
             style={{
               padding: '8px 16px',
-              background: 'var(--bg)',
+              backgroundColor: 'var(--main-color)',
               fontWeight:'bold',
               color: 'var(simple-color2)',
               border: 'none',

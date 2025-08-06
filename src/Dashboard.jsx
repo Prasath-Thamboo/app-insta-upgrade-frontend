@@ -126,7 +126,7 @@ function Dashboard() {
                 </Link>
               )}
 
-              <button onClick={handleLogout} style={{ background: 'tomato', color: 'white' }}>Déconnexion</button>
+              <button onClick={handleLogout} style={{ backgroundColor: 'red', color: 'white' }}>Déconnexion</button>
             </div>
           )}
         </div>
@@ -187,7 +187,7 @@ function Dashboard() {
         
 
         {(role === 'user' || role === 'testeur') && !instagramToken && (
-          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <div style={{ marginTop: '20px', textAlign: 'center'}}>
             <Link to="/connect-instagram">
               <button style={{
                 padding: '12px 24px',
@@ -196,7 +196,8 @@ function Dashboard() {
                 fontSize: '16px',
                 border: 'none',
                 borderRadius: '5px',
-                cursor: 'pointer'
+                cursor: 'pointer', 
+                marginRight:'10px'
               }}>
                 Connecter mon compte Instagram
               </button>

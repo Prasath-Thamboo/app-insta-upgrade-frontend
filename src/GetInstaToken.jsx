@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
+import { Link } from 'react-router-dom';
+
 
 
 const GetInstagramToken = () => {
@@ -20,6 +22,22 @@ const GetInstagramToken = () => {
 
   return (
     <div className="container" style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
+
+      <Link to="/dashboard">
+            <button
+              style={{
+                backgroundColor: 'var(--main-color)',
+                color: 'white',
+                padding: '10px 20px',
+                background: 'var(--bg)',
+                fontWeight: 'bold',
+                border: 'none',            
+            }}
+            >
+              ← Retour au dashboard
+            </button>
+        </Link>
+
       <h1>Récupérer votre token Instagram</h1>
 
       <p>
@@ -48,30 +66,9 @@ const GetInstagramToken = () => {
         Autoriser l'accès à Instagram
       </a>
 
-      <h2>Étape 4 : Obtenir votre token d'accès</h2>
+      <h2>Étape 4 : Ajouter le token dans votre profil</h2>
       <p>
-        Une fois que vous avez autorisé l'accès, vous serez redirigé vers une page de notre application avec un "code" dans l'URL. Ce code sera utilisé pour générer un token d'accès. Copiez ce code et collez-le dans le champ ci-dessous pour obtenir votre token d'accès Instagram.
-      </p>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="token-input">Votre Token Instagram</label>
-        <input
-          type="text"
-          id="token-input"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-          placeholder="Entrez votre token Instagram"
-          style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
-        />
-        <button type="submit" style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
-          Ajouter le Token
-        </button>
-      </form>
-
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-
-      <h2>Étape 5 : Ajouter le token dans votre profil</h2>
-      <p>
-        Une fois que vous avez obtenu votre token, collez-le dans le champ ci-dessus. Après l'ajout, votre compte Instagram sera connecté à notre application, et vous pourrez suivre l'évolution de vos abonnés directement depuis votre dashboard.
+        Une fois que vous avez obtenu votre token, collez-le dans votre profil dans la section Token. 
       </p>
 
       <p>

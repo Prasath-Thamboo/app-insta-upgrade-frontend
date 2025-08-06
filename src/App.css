@@ -15,6 +15,7 @@
   --simple-color: black;
   --simple-color2: white;
   --main-color : #6772e5;
+  --negatif: red;
 
 }
 
@@ -29,6 +30,12 @@ input, textarea{
    font-size: 16px; 
    border-radius: 10px;
    border: 1px solid var(--simple-color);
+   background-color: var(--simple-color2);
+   color: var(--simple-color);
+}
+
+label{
+   font-size: 16px; 
    background-color: var(--simple-color2);
    color: var(--simple-color);
 }
@@ -290,7 +297,7 @@ form img {
 }
 
 .popup.decrease {
-  background: #F44336; /* Rouge */
+  background: var(--negatif); /* Rouge */
 }
 
 form div{
@@ -300,8 +307,6 @@ form div{
   top: 100px;
   gap: 50px;
 }
-
-
 
 
 /****************************** Animation **************************/

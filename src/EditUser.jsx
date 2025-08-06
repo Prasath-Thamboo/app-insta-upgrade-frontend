@@ -55,6 +55,11 @@ export default function EditUser() {
 
   return (
     <div className="body-sim2" style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+      <div style={{ marginTop: '20px' }}>
+        <Link to="/admin">
+          <button style={{ padding: '8px 16px' }}>← Retour au panneau admin</button>
+        </Link>
+      </div>
       <h1>Modifier l'utilisateur</h1>
 
       {message && <p style={{ color: 'red' }}>{message}</p>}
@@ -73,20 +78,14 @@ export default function EditUser() {
           onChange={(e) => setInstagramToken(e.target.value)}
           placeholder="Laisser vide pour supprimer"
         />
-        <button type="button" onClick={() => setInstagramToken('')} style={{ color: 'red' }}>
+        <button type="button" onClick={() => setInstagramToken('')} style={{ background: 'var(--negatif)' }}>
           Supprimer le token
         </button>
 
-        <button type="submit" style={{ backgroundColor: '#007BFF', color: 'white' }}>
+        <button type="submit" style={{ backgroundColor: 'var(--main-color)', color: 'white' }}>
           Enregistrer les modifications
         </button>
       </form>
-
-      <div style={{ marginTop: '20px' }}>
-        <Link to="/admin">
-          <button style={{ padding: '8px 16px' }}>← Retour au panneau admin</button>
-        </Link>
-      </div>
     </div>
   );
 }
