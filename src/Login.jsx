@@ -65,6 +65,9 @@ export default function Login() {
         <button type="submit" style={{ padding: '10px', backgroundColor: 'var(--main-color)', color: 'var(--simple-color2)', fontSize: '16px' }}>
           Connexion
         </button>
+        <p style={{ marginTop: '10px' }}>
+          <Link to="/forgot-password">Mot de passe oublié ?</Link>
+        </p>
       </form>
     </div>
   );

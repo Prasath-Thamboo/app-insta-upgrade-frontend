@@ -15,6 +15,8 @@ import EmailConfirmation from './EmailConfirmation';
 import StripeCheckout from './StripeCheckout';
 import PaymentSuccess from './PaymentSuccess';
 import PaymentCancelled from './PaymentCancelled';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 import InstagramCallback from './InstagramCallback';
 import GetInstaToken from './GetInstaToken'; 
 import Contact from './Contact';
@@ -74,6 +76,10 @@ function App() {
   return (
     <Router>
       <Routes>
+
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+
         <Route path="/get-instagram-token" element={<GetInstaToken />} />
         <Route path="/instagram-callback" element={<InstagramCallback />} />
         <Route path="/connect-instagram" element={<ConnectInstagram />} />
