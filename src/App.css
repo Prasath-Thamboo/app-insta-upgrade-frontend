@@ -97,10 +97,13 @@ background-size: 400% 400%;
 
 h1{
   text-align: center;
-  margin: 100px;
   font-size: 2.2em;
   line-height: 1.1;
   font-weight: bold;
+  color: var(--simple-color);
+}
+
+h2{
   color: var(--simple-color);
 }
 
@@ -289,15 +292,15 @@ form img {
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
-  border: 2px solid var(--simple-color2);
+  border: 2px solid var(--simple-color);
 }
 
 .popup.increase {
-  background: #4CAF50; /* Vert */
+  background: var(--main-color); /* Vert */
 }
 
 .popup.decrease {
-  background: var(--negatif); /* Rouge */
+  background: var(--bg); /* Rouge */
 }
 
 form div{

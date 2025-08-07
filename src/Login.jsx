@@ -41,7 +41,7 @@ export default function Login() {
 
       <img src="/insta-logo.png" alt="Logo Instagram" style={{ width: '100px', marginBottom: '20px' }} />
 
-      <Link to="/register" style={{ marginBottom: '30px', textDecoration: 'none', color: '#007BFF' }}>
+      <Link to="/register" style={{ marginBottom: '30px', textDecoration: 'none', color: 'var(--main-color)' }}>
         <button style={{ padding: '8px 16px' }}>Créer un compte</button>
       </Link>
 

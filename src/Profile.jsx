@@ -137,7 +137,6 @@ export default function Profile() {
         style={{
           maxWidth: '600px',
           width: '100%',
-          background: 'var(--main-color)',
           padding: '30px',
           borderRadius: '10px',
           boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
@@ -147,7 +146,6 @@ export default function Profile() {
           <Link to="/dashboard">
             <button
               style={{
-                backgroundColor: 'var(--main-color)',
                 color: 'white',
                 padding: '10px 20px',
                 background: 'var(--bg)',
@@ -160,7 +158,7 @@ export default function Profile() {
           </Link>
         </div>
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <h2>Profil utilisateur</h2>
+          <h1>Profil utilisateur</h1>
           {profilePicture && (
             <img
               src={profilePicture}
@@ -168,7 +166,7 @@ export default function Profile() {
               style={{ width: '100px', height: '100px', borderRadius: '50%', marginTop: '10px' }}
             />
           )}
-          <p style={{ color: 'var(--simple-color2)' }}>
+          <p style={{ color: 'var(--simple-color)' }}>
             Connecté en tant que <strong>{username}</strong>
           </p>
         </div>
@@ -186,12 +184,11 @@ export default function Profile() {
               padding: '10px',
               marginTop: '5px',
               borderRadius: '5px',
-              border: 'none',
               backgroundColor: 'var(--simple-color2)',
               color: 'var(--simple-color)',
             }}
           />
-          <button type="submit" style={{ marginTop: '10px', width: '100%' }}>
+          <button type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor:'red' }}>
             Modifier
           </button>
         </form>
@@ -209,7 +206,6 @@ export default function Profile() {
               padding: '10px',
               marginTop: '5px',
               borderRadius: '5px',
-              border: 'none',
               backgroundColor: 'var(--simple-color2)',
               color: 'var(--simple-color)',
             }}
@@ -235,7 +231,7 @@ export default function Profile() {
 
         {/* Modification du design du dashboard */}
         <div style={{ marginTop: '30px' }}>
-          <h3>Choisir le design du dashboard :</h3>
+          <h2>Choisir le design du dashboard :</h2>
           <select value={style} onChange={(e) => setStyle(e.target.value)} style={{ padding: '8px', borderRadius: '5px' }}>
             <option value="classic">Classique</option>
             <option value="modern">Moderne</option>
