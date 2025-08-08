@@ -148,7 +148,7 @@ export default function Profile() {
               style={{
                 color: 'white',
                 padding: '10px 20px',
-                background: 'var(--bg)',
+                backgroundColor: 'var(--main-color)',
                 fontWeight: 'bold',
                 border: 'none',
               }}
@@ -188,7 +188,7 @@ export default function Profile() {
               color: 'var(--simple-color)',
             }}
           />
-          <button type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor:'red' }}>
+          <button type="submit" style={{ marginTop: '10px', width: '100%', backgroundColor:'var(--main-color)' }}>
             Modifier
           </button>
         </form>
@@ -232,7 +232,7 @@ export default function Profile() {
         {/* Modification du design du dashboard */}
         <div style={{ marginTop: '30px' }}>
           <h2>Choisir le design du dashboard :</h2>
-          <select value={style} onChange={(e) => setStyle(e.target.value)} style={{ padding: '8px', borderRadius: '5px' }}>
+          <select value={style} onChange={(e) => setStyle(e.target.value)} style={{ padding: '8px', borderRadius: '5px', border:'none' }}>
             <option value="classic">Classique</option>
             <option value="modern">Moderne</option>
             <option value="minimal">Minimal</option>
@@ -267,7 +267,6 @@ export default function Profile() {
                 padding: '10px',
                 marginTop: '5px',
                 borderRadius: '5px',
-                border: 'none',
                 backgroundColor: 'var(--simple-color2)',
                 color: 'var(--simple-color)',
               }}

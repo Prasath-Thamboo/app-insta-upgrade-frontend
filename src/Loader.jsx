@@ -21,7 +21,7 @@ const styles = {
   spinner: {
     width: '40px',
     height: '40px',
-    border: '5px solid #ccc',
+    border: '5px solid var(--bg)',
     borderTop: '5px solid var(--bg)',
     borderRadius: '50%',
     animation: 'spin 1s linear infinite',

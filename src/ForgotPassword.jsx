@@ -11,7 +11,7 @@ export default function ForgotPassword() {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/forgot-password`, { email });
       setSubmitted(true);
-      setMessage("📩 Si l'adresse est correcte, un email a été envoyé.");
+      setMessage("📩 Si l'adresse est correcte, un email a été envoyé. Vérifiez vos spams.");
     } catch (err) {
       setMessage("❌ Une erreur est survenue. Veuillez réessayer.");
     }
