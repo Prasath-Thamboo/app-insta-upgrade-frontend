@@ -23,7 +23,6 @@ const styles = {
     height: '40px',
     border: '5px solid #ff7a18',
     borderTop: '5px solid #5f4b8b',
-    borderBottom: '5px solid #af002d',
     borderRadius: '50%',
     animation: 'spin 1s linear infinite',
     marginBottom: '10px',
