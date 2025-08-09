@@ -127,7 +127,7 @@ export default function Profile() {
       setMessage('Token Instagram mis à jour.');
     } catch (err) {
       console.error(err);
-      setMessage('Erreur lors de la mise à jour du token Instagram');
+      setMessage('Erreur lors de la mise à jour du token Instagram, si vous voulez le supprimer le token mettez un espace et appuyer sur le bouton');
     }
   };
 
