@@ -85,7 +85,7 @@ const StripeCheckout = () => {
             Recommandé ⭐
           </div>
           <h2 style={{ color:"black" }}>Premium</h2>
-          <p style={{ color:"black" }}><strong>12€/mois</strong></p>
+          <p style={{ color:"black" }}><strong>19.99€/mois</strong></p>
           <ul style={{ listStyle: "none", padding: 0, color:"black" }}>
             <li>✅ Accès complet au compteur</li>
             <li>🔔 Alertes de variations</li>
