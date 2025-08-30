@@ -53,7 +53,7 @@ export default function Login() {
               <span className="feat-ico">⚡</span>
               <div>
                 <strong>Temps réel</strong>
-                <p>Mise à jour périodique & popup gain/perte intégrée.</p>
+                <p>Mise à jour en temps réel & popup gain/perte intégrée.</p>
               </div>
             </li>
             <li>
@@ -67,7 +67,7 @@ export default function Login() {
               <span className="feat-ico">🛡️</span>
               <div>
                 <strong>Pro & RGPD</strong>
-                <p>Respect du vie privée </p>
+                <p>Respect de la vie privée </p>
               </div>
             </li>
           </ul>

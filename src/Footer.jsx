@@ -32,7 +32,9 @@ const Footer = () => {
           bottom: visible ? '0' : '-200px',
           left: 0,
           right: 0,
-          background: 'transparent',
+          background: 'rgba(255, 255, 255, 0.2)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)', 
           color: 'white',
           padding: '20px',
           textAlign: 'center',
@@ -55,7 +57,7 @@ const Footer = () => {
           Fermer ✕
         </button>
 
-        <p>© {new Date().getFullYear()} MonApplication. Tous droits réservés.</p>
+        <p style ={{color:'var(--simple-color)'}}>© {new Date().getFullYear()} MonApplication. Tous droits réservés.</p>
          <p style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
           <Link to="/mentions-legales">Mentions légales</Link>
           <Link to="/politique-confidentialite">Politique de confidentialité</Link>
