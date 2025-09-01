@@ -445,6 +445,9 @@ form div{
   margin-inline: auto;
   position: relative; /* pour rester au-dessus des cercles */
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Marque */

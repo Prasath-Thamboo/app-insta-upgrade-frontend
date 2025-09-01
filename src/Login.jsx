@@ -42,7 +42,7 @@ export default function Login() {
             <span className="brand-name">Count-inst</span>
           </div>
 
-          <h1 className="hero-title">Compteur de followers <br />en temps réel</h1>
+          <h1 className='hero-title'>Bienvenue au compteur de followers</h1>
           <p className="hero-subtitle">
             Suivez les variations instantanément, affichez un compteur stylé pour vos vitrines
             ou dashboards, et restez focus sur l’essentiel.
@@ -79,7 +79,7 @@ export default function Login() {
         <div className="auth-card">
           {popup && <div className={`popup ${popup.type}`}>{popup.message}</div>}
 
-          <h1 style={{ marginBottom: '10px' }}>Bienvenue au compteur de followers</h1>
+          <h1 style={{ marginBottom: '10px' }}>Accéder au compteur de followers</h1>
           <p style={{ marginBottom: '20px', color: 'black' }}>
             Connectez-vous juste en dessous
           </p>
