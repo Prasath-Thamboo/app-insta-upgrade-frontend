@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const TermsAndConditions = () => {
   return (
-    <div className="body-sim">
+    <div style={{ padding: '40px', maxWidth: '800px', margin: 'auto' }}>
 
       <div>
       <Link to="/dashboard">
