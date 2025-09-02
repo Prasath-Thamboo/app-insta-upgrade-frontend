@@ -29,7 +29,7 @@ import LegalNotice from './LegalNotice';
 import TermsAndConditions from './TermsAndConditions';
 import CookiesPolicy from './CookiesPolicy';
 
-import CookieBanner from './CookieBanner'; // Assure-toi que le chemin est correct
+import CookieBanner from './CookieBanner'; 
 import { loadGoogleAnalytics } from './utils/analytics.js';
 
 function ProtectedRoute({ children, adminOnly = false }) {

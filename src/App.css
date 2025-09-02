@@ -477,6 +477,7 @@ form div{
   color: rgba(255,255,255,0.9);
   max-width: 58ch;
   margin-bottom: 26px;
+  text-align: center;
 }
 
 /* Features */
