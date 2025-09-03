@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './App.css';
+
+const PLACEHOLDER = '/avatar-placeholder.png';
 
 export default function Profile() {
   const [username, setUsername] = useState('');
@@ -17,6 +19,10 @@ export default function Profile() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [portalLoading, setPortalLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('preferences'); // 'preferences' | 'subscription' | 'account'
+  const [imgError, setImgError] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  const fileInputRef = useRef(null);
 
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -27,12 +33,9 @@ export default function Profile() {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        console.log("User data from /api/me:", res.data); // 👈 ICI
-
         setUsername(res.data.username);
         setNewUsername(res.data.username);
-        setProfilePicture(res.data.profilePicture);
+        setProfilePicture(res.data.profilePicture || '');
         setStyle(res.data.dashboardStyle || 'classic');
         setRole(res.data.role);
         setInstagramToken(res.data.instagramToken || '');
@@ -43,7 +46,6 @@ export default function Profile() {
     }
     fetchUserData();
   }, [token]);
-
 
   // --- Handlers ---
 
@@ -95,11 +97,11 @@ export default function Profile() {
   const handleImageUpload = async (e) => {
     e.preventDefault();
     if (!file) return setMessage('Veuillez sélectionner une image.');
-
     const formData = new FormData();
     formData.append('image', file);
 
     try {
+      setBusy(true);
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/upload-profile-picture`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -107,10 +109,36 @@ export default function Profile() {
         },
       });
       setProfilePicture(res.data.url);
+      setImgError(false);
       setMessage('Photo de profil mise à jour.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      setFile(null);
     } catch (err) {
       console.error(err);
-      setMessage("Erreur lors de l'upload de l'image.");
+      if (err?.response?.status === 415) {
+        setMessage('Formats autorisés: JPG, PNG, WEBP');
+      } else {
+        setMessage("Erreur lors de l'upload de l'image.");
+      }
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleDeleteAvatar = async () => {
+    try {
+      setBusy(true);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/delete-profile-picture`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProfilePicture('');
+      setImgError(false);
+      setMessage('Photo de profil supprimée.');
+    } catch (err) {
+      console.error(err);
+      setMessage("Erreur lors de la suppression de la photo.");
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -158,6 +186,8 @@ export default function Profile() {
       setPortalLoading(false);
     }
   };
+
+  const avatarSrc = !imgError && profilePicture ? profilePicture : PLACEHOLDER;
 
   // --- UI helpers ---
 
@@ -227,15 +257,24 @@ export default function Profile() {
         </div>
 
         {/* Avatar */}
-        {profilePicture && (
-          <div style={{ marginTop: 16 }}>
-            <img
-              src={profilePicture}
-              alt="Profil"
-              style={{ width: 88, height: 88, borderRadius: '50%', objectFit: 'cover' }}
-            />
-          </div>
-        )}
+        <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 16 }}>
+          <img
+            src={avatarSrc}
+            alt="Profil"
+            onError={() => setImgError(true)}
+            style={{ width: 88, height: 88, borderRadius: '50%', objectFit: 'cover' }}
+            loading="lazy"
+          />
+          {profilePicture && (
+            <button
+              onClick={handleDeleteAvatar}
+              disabled={busy}
+              style={{ background: 'var(--bg)', border: 'none', borderRadius: 8, padding: '8px 12px' }}
+            >
+              Supprimer la photo
+            </button>
+          )}
+        </div>
 
         {/* Tabs */}
         <div role="tablist" aria-label="Paramètres du profil" style={{ display: 'flex', gap: 12, marginTop: 24, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
@@ -267,6 +306,7 @@ export default function Profile() {
                   </select>
                   <button
                     onClick={updateStyle}
+                    disabled={busy}
                     style={{ padding: '10px 16px', background: 'var(--bg)', border: 'none', fontWeight: 'bold', borderRadius: 8 }}
                   >
                     Enregistrer
@@ -279,13 +319,14 @@ export default function Profile() {
                 <h2>Photo de profil</h2>
                 <form onSubmit={handleImageUpload}>
                   <input
+                    ref={fileInputRef}
                     type="file"
                     accept="image/*"
-                    onChange={(e) => setFile(e.target.files[0])}
+                    onChange={(e) => setFile(e.target.files[0] || null)}
                     style={{ width: '100%', marginTop: 5 }}
                   />
-                  <button type="submit" style={{ marginTop: 10, width: '100%' }}>
-                    Uploader
+                  <button type="submit" disabled={busy} style={{ marginTop: 10, width: '100%' }}>
+                    {busy ? 'Envoi…' : 'Uploader'}
                   </button>
                 </form>
               </div>
