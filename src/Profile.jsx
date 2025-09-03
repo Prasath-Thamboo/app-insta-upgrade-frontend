@@ -215,12 +215,12 @@ export default function Profile() {
   };
 
   return (
-    <div className="body-sim" style={{ minHeight: '100%' }}>
+    <div className="body-sim">
       <div
         style={{
           maxWidth: '900px',
           width: '100%',
-          padding: '24px',
+          padding: '50px',
           borderRadius: '12px',
           boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
           margin: '0 auto',
