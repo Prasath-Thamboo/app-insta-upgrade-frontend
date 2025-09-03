@@ -108,7 +108,7 @@ export default function Profile() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      setProfilePicture(res.data.url);
+      setProfilePicture(res.data.url); // URL Cloudinary versionnée
       setImgError(false);
       setMessage('Photo de profil mise à jour.');
       if (fileInputRef.current) fileInputRef.current.value = '';
