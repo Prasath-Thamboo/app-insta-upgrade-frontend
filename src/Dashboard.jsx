@@ -188,7 +188,7 @@ function Dashboard() {
 
         {(role === 'user' || role === 'testeur') && !instagramToken && (
           <div style={{ marginTop: '20px', textAlign: 'center'}}>
-            <Link to="/connect-instagram">
+           {/* <Link to="/connect-instagram">
               <button style={{
                 padding: '12px 24px',
                 backgroundColor: 'var(--main-color)',
@@ -201,7 +201,7 @@ function Dashboard() {
               }}>
                 Connecter mon compte Instagram
               </button>
-            </Link>
+            </Link>*/}
 
             {/* Nouveau bouton pour accéder à la page GetInstagramToken */}
             <Link to="/get-instagram-token">
