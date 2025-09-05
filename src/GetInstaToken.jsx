@@ -21,7 +21,7 @@ const GetInstagramToken = () => {
   };
 
   return (
-    <div className="container" style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
+    <div className="body-sim" style={{ padding: '50px'}}>
 
       <Link to="/dashboard">
             <button

@@ -53,7 +53,7 @@ export default function Register() {
   if (consent === false) {
     return (
       <div className="body-sim2" style={{ textAlign: 'center' }}>
-        <h1>Vous devez créer un compte Instagram Professionnel avant de procéder à l'inscription</h1>
+        <h1>Nous vous conseillons de créer un compte Professionnel avant de débuter l'inscription et de suivre les instructions de cette page : <Link to="/get-instagram-token"><strong>OBTENIR LE TOKEN INSTAGRAM</strong></Link></h1>
         <button onClick={() => setConsent(null)} style={{ marginTop: '10px' }}>Retour</button>
       </div>
     );

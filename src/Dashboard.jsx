@@ -139,88 +139,47 @@ function Dashboard() {
       )}
 
       <div className={`contain ${design}`}>
-        <div className="ins-logo">
-          <img
-            src={profilePicture || '/insta-logo.png'}
-            alt="Profil utilisateur ou logo Instagram"
-            style={{ objectFit: 'cover', width: '300px', marginRight: '20px' }}
-          />
-        </div>
-        <div className="title-container">{renderDigits()}</div>
+  <div className="ins-logo">
+    <img
+      src={profilePicture || '/insta-logo.png'}
+      alt="Profil utilisateur ou logo Instagram"
+    />
+  </div>
 
-        {(role === 'freeuser' && !isSubscribed) && (
-          <div style={{ marginTop: '20px', textAlign: 'center' }}>
-            <Link to="/subscribe">
-              <button style={{
-                padding: '12px 24px',
-                marginRight: '10px',
-                backgroundColor: 'var(--main-color)',
-                color: 'var(--simple-color2)',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer'
-              }}>
-                S’abonner
-              </button>
-            </Link>
-            <Link to="/start-trial">
-              <button style={{
-                padding: '12px 24px',
-                backgroundColor: 'orange',
-                color: 'var(--simple-color2)',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer'
-              }}>
-                Tester pendant 7 jours
-              </button>
-            </Link>
-          </div>
-        )}
+  <div className="title-container">{renderDigits()}</div>
 
-        {(role === 'testeur') && trialEndDate && (
-          <div style={{ marginTop: '30px', textAlign: 'center', color: 'orange', fontWeight: 'bold' }}>
-            ⏳ Essai gratuit en cours jusqu’au : {trialEndDate.toLocaleDateString('fr-FR')}
-          </div>
-        )}
+  {(role === 'freeuser' && !isSubscribed) && (
+    <div className="cta-row">
+      <Link to="/subscribe">
+        <button className="btn" style={{ backgroundColor: 'var(--main-color)', color: 'var(--simple-color2)' }}>
+          S’abonner
+        </button>
+      </Link>
+      <Link to="/start-trial">
+        <button className="btn" style={{ backgroundColor: 'orange', color: 'var(--simple-color2)' }}>
+          Tester pendant 7 jours
+        </button>
+      </Link>
+    </div>
+  )}
 
-        
+  {(role === 'testeur') && trialEndDate && (
+    <div style={{ marginTop: '30px', textAlign: 'center', color: 'orange', fontWeight: 'bold' }}>
+      ⏳ Essai gratuit en cours jusqu’au : {trialEndDate.toLocaleDateString('fr-FR')}
+    </div>
+  )}
 
-        {(role === 'user' || role === 'testeur') && !instagramToken && (
-          <div style={{ marginTop: '20px', textAlign: 'center'}}>
-           {/* <Link to="/connect-instagram">
-              <button style={{
-                padding: '12px 24px',
-                backgroundColor: 'var(--main-color)',
-                color: 'white',
-                fontSize: '16px',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer', 
-                marginRight:'10px'
-              }}>
-                Connecter mon compte Instagram
-              </button>
-            </Link>*/}
+  {(role === 'user' || role === 'testeur') && !instagramToken && (
+    <div className="cta-row">
+      <Link to="/get-instagram-token">
+        <button className="btn" style={{ backgroundColor: 'var(--main-color)', color: 'white' }}>
+          Obtenir mon token Instagram
+        </button>
+      </Link>
+    </div>
+  )}
+</div>
 
-            {/* Nouveau bouton pour accéder à la page GetInstagramToken */}
-            <Link to="/get-instagram-token">
-              <button style={{
-                padding: '12px 24px',
-                marginTop: '10px',
-                backgroundColor: 'var(--main-color)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer'
-              }}>
-                Obtenir mon token Instagram
-              </button>
-            </Link>
-          </div>
-        )}
-
-      </div>
     </div>
   );
 }
