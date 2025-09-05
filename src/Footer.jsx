@@ -29,7 +29,7 @@ const Footer = () => {
       <div
         style={{
           position: 'fixed',
-          bottom: visible ? '0' : '-200px',
+          bottom: visible ? '0' : '-250px',
           left: 0,
           right: 0,
           background: 'rgba(255, 255, 255, 0.2)',

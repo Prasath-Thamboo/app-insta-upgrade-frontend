@@ -38,7 +38,7 @@ export default function Login() {
       <section className="hero-panel">
         <div className="hero-content">
           <div className="brand">
-            <img src="/insta-logo.png" alt="Instagram Logo" className="brand-logo" />
+            <img src="/insta-logo2.png" alt="Instagram Logo" className="brand-logo" />
             <span className="brand-name">Count-inst</span>
           </div>
 
@@ -85,7 +85,7 @@ export default function Login() {
           </p>
 
           <img
-            src="/insta-logo.png"
+            src="/insta-logo2.png"
             alt="Logo Instagram"
             style={{ width: '64px', marginBottom: '16px' }}
           />

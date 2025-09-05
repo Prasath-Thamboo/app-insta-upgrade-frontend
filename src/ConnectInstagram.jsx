@@ -44,7 +44,7 @@ const ConnectInstagram = () => {
             width: '100%'
         }}>
             <img
-            src="/insta-logo.png"
+            src="/insta-logo2.png"
             alt="Instagram"
             style={{ width: '80px', marginBottom: '20px' }}
             />

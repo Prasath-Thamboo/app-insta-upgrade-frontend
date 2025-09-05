@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import './App.css';
+
+
 
 
 const StripeCheckout = () => {
@@ -24,11 +27,11 @@ const StripeCheckout = () => {
   };
 
   return (
-    <div style={{ padding: "60px", fontFamily: 'Arial', background: 'var(--bg)', height:"87vh"}}>
+    <div style={{ padding: "60px", background: 'var(--bg)', height:"87vh"}}>
 
       <div style={{ marginTop: '30px', textAlign: 'center' }}>
         <Link to="/dashboard">
-          <button style={{ backgroundColor: '#007BFF', color: 'white', padding: '10px 20px' }}>
+          <button style={{ backgroundColor: 'var(--main-color)', color: 'white', padding: '10px 20px' }}>
             ← Retour au dashboard
           </button>
         </Link>
@@ -45,7 +48,7 @@ const StripeCheckout = () => {
         {/* Free Plan */}
         <div style={{
           backgroundColor: "white",
-          border: "1px solid #ccc",
+          border: "1px solid var(--simple-color2)",
           borderRadius: "12px",
           padding: "30px",
           width: "300px",

@@ -141,7 +141,7 @@ function Dashboard() {
       <div className={`contain ${design}`}>
   <div className="ins-logo">
     <img
-      src={profilePicture || '/insta-logo.png'}
+      src={profilePicture || '/insta-logo2.png'}
       alt="Profil utilisateur ou logo Instagram"
     />
   </div>

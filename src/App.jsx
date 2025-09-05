@@ -22,6 +22,7 @@ import GetInstaToken from './GetInstaToken';
 import Contact from './Contact';
 import StartTrial from './StartTrial';
 import Loader from './Loader';
+import Home from './Home';
 
 
 import PrivacyPolicy from './PrivacyPolicy';
@@ -81,6 +82,7 @@ function App() {
         <Route path="/reset-password/:token" element={<ResetPassword />} />
 
         <Route path="/get-instagram-token" element={<GetInstaToken />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/instagram-callback" element={<InstagramCallback />} />
         <Route path="/connect-instagram" element={<ConnectInstagram />} />
         <Route path="/contact" element={<Contact />} />

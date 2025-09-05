@@ -663,6 +663,7 @@ form div{
   }
   .title-container {
     width: 100%;
+    padding-left: 22px;
   }
 }
 
