@@ -167,7 +167,7 @@ export default function Profile() {
     } catch (err) {
       console.error(err);
       setMessage('Erreur lors de la mise à jour du token Instagram, si vous voulez le supprimer le token mettez un espace et appuyer sur le bouton');
-    }
+    }a
   };
 
   const handleOpenCustomerPortal = async () => {
@@ -220,15 +220,15 @@ export default function Profile() {
         style={{
           maxWidth: '900px',
           width: '100%',
-          padding: '50px',
+          margin: '50px',
+          padding:'50px',
           borderRadius: '12px',
           boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
-          margin: '0 auto',
-          height: '700px'
+          height: '850px'
         }}
       >
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap:'30px' }}>
           <div>
             <h1 style={{ margin: 0 }}>Profil utilisateur</h1>
             <p style={{ color: 'var(--simple-color)', marginTop: 6 }}>

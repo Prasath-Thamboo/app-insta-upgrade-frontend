@@ -40,7 +40,7 @@ export default function Register() {
 
   if (consent === null) {
     return (
-      <div className="body-sim2" style={{ flexDirection: 'column', padding: '20px' }}>
+      <div className="body-sim" style={{ flexDirection: 'column', padding: '20px' }}>
         <h1 style={{ marginBottom: '20px' }}>Avez-vous un compte Instagram Professionnel ?</h1>
         <div>
           <button onClick={() => setConsent(true)} style={{ marginRight: '10px' }}>Oui</button>
@@ -52,7 +52,7 @@ export default function Register() {
 
   if (consent === false) {
     return (
-      <div className="body-sim2" style={{ textAlign: 'center' }}>
+      <div className="body-sim" style={{ textAlign: 'center' }}>
         <h1>Nous vous conseillons de créer un compte Professionnel avant de débuter l'inscription et de suivre les instructions de cette page : <Link to="/get-instagram-token"><strong>OBTENIR LE TOKEN INSTAGRAM</strong></Link></h1>
         <button onClick={() => setConsent(null)} style={{ marginTop: '10px' }}>Retour</button>
       </div>
@@ -60,7 +60,7 @@ export default function Register() {
   }
 
   return (
-    <div className="body-sim2">
+    <div className="body-sim">
       <h1 style={{ marginBottom: '10px' }}>Créer un compte</h1>
       <p style={{ marginBottom: '20px', color:'var(--simple-color' }}>Remplissez les informations ci-dessous</p>
 

@@ -54,38 +54,43 @@ export default function EditUser() {
   };
 
   return (
-    <div className="body-sim2" style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-      <div style={{ marginTop: '20px' }}>
+    <div className="body-sim" >
+      <div 
+        style={{
+          padding:'50px',
+          borderRadius: '12px',
+          boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+          }}>
         <Link to="/admin">
           <button style={{ padding: '8px 16px' }}>← Retour au panneau admin</button>
         </Link>
+        <h1>Modifier l'utilisateur</h1>
+
+        {message && <p style={{ color: 'red' }}>{message}</p>}
+
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <label>Email :</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+
+          <label>Nom d’utilisateur :</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+
+          <label>Token Instagram :</label>
+          <input
+            type="text"
+            value={instagramToken}
+            onChange={(e) => setInstagramToken(e.target.value)}
+            placeholder="Laisser vide pour supprimer"
+          />
+          <button type="button" onClick={() => setInstagramToken('')} style={{ background: 'var(--negatif)' }}>
+            Supprimer le token
+          </button>
+
+          <button type="submit" style={{ backgroundColor: 'var(--main-color)', color: 'white' }}>
+            Enregistrer les modifications
+          </button>
+        </form>
       </div>
-      <h1>Modifier l'utilisateur</h1>
-
-      {message && <p style={{ color: 'red' }}>{message}</p>}
-
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <label>Email :</label>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-
-        <label>Nom d’utilisateur :</label>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-
-        <label>Token Instagram :</label>
-        <input
-          type="text"
-          value={instagramToken}
-          onChange={(e) => setInstagramToken(e.target.value)}
-          placeholder="Laisser vide pour supprimer"
-        />
-        <button type="button" onClick={() => setInstagramToken('')} style={{ background: 'var(--negatif)' }}>
-          Supprimer le token
-        </button>
-
-        <button type="submit" style={{ backgroundColor: 'var(--main-color)', color: 'white' }}>
-          Enregistrer les modifications
-        </button>
-      </form>
     </div>
   );
 }

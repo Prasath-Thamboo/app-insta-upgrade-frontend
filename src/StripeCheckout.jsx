@@ -27,7 +27,7 @@ const StripeCheckout = () => {
   };
 
   return (
-    <div style={{ padding: "60px", background: 'var(--bg)', height:"87vh"}}>
+    <div className='body-sim'>
 
       <div style={{ marginTop: '30px', textAlign: 'center' }}>
         <Link to="/dashboard">

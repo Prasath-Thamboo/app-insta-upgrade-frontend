@@ -22,7 +22,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div style={{ padding: '40px', maxWidth: '400px', margin: 'auto' }}>
+    <div className='body-sim'>
       <h2>Réinitialiser le mot de passe</h2>
       <form onSubmit={handleSubmit}>
         <input

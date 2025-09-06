@@ -1,0 +1,166 @@
+.admin-page {
+  min-height: 100dvh;
+  background: var(--surface);
+  padding: 16px;
+  display: grid;
+  place-items: start center;
+}
+.admin {
+  width: 100%;
+  max-width: 1100px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+@media (min-width: 768px) { .admin { padding: 28px; } }
+
+/* ===== Toolbar ===== */
+.admin__toolbar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: start;
+}
+@media (min-width: 720px) {
+  .admin__toolbar {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+}
+.admin__title { text-align: left; }
+.admin__heading {
+  margin: 0;
+  font-size: clamp(20px, 2.2vw, 28px);
+  color: var(--text);
+}
+.admin__msg {
+  margin: 6px 0 0;
+  color: #ff7272;
+  font-size: 0.95rem;
+}
+.admin__actions { justify-self: start; }
+@media (min-width: 720px) { .admin__actions { justify-self: end; } }
+
+/* ===== Buttons ===== */
+.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #1d1d1d;
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter .15s ease, opacity .15s ease, transform .02s ease;
+}
+.btn:hover { filter: brightness(1.06); }
+.btn:active { transform: translateY(1px); }
+.btn[disabled] { opacity: .7; cursor: not-allowed; }
+.btn--pill { border-radius: 999px; }
+.btn--ghost { background: transparent; }
+.btn--sm { padding: 8px 12px; font-weight: 600; }
+
+.btn--primary { background: var(--main-color); color: #fff; border-color: transparent; }
+.btn--danger  { background: var(--negatif);  color: #fff; border-color: transparent; }
+.btn--warn    { background: var(--warn);     color: #222; border-color: transparent; }
+.btn--info    { background: var(--info);     color: #fff; border-color: transparent; }
+
+/* ===== Mobile Cards ===== */
+.user-cards {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 8px;
+  display: grid;
+  gap: 12px;
+}
+.user-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.03);
+}
+.user-card__row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.user-card__row:last-child { border-bottom: none; }
+.user-card__label { color: var(--muted); font-weight: 600; }
+.user-card__value { color: var(--text); overflow-wrap: anywhere; }
+.user-card__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.user-cards__empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 16px 8px;
+}
+
+/* ===== Table (≥ 768px) ===== */
+.table-wrap {
+  margin-top: 8px;
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  display: none; /* caché en mobile */
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 680px;
+}
+.table thead tr {
+  background: color-mix(in oklab, var(--main-color) 25%, #000);
+}
+.table th,
+.table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+.table__th--actions { width: 320px; }
+.table__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.table__empty { text-align: center; padding: 18px; color: var(--muted); }
+
+@media (min-width: 768px) {
+  .table-wrap { display: block; }
+  .user-cards { display: none; }
+}
+
+/* ===== Modal ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+  padding: 16px;
+}
+.modal__box {
+  background: #0f0f10;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  width: min(520px, 100%);
+  padding: 20px;
+  color: var(--text);
+  text-align: center;
+}
+.modal__title { margin: 0 0 8px 0; font-size: 1.25rem; }
+.modal__text { margin: 0; color: var(--text); }
+.modal__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
