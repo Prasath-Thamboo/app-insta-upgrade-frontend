@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const TermsAndConditions = () => {
   return (
-    <div style={{ padding: '40px', maxWidth: '800px', margin: 'auto' }}>
+    <div className='body-sim'>
 
       <div>
       <Link to="/dashboard">
@@ -15,7 +15,7 @@ const TermsAndConditions = () => {
         </div>
       <h1>Conditions Générales d'Utilisation</h1>
       
-      <p>Dernière mise à jour : 30 juillet 2025</p>
+      <p>Dernière mise à jour : 06 Septembre 2025</p>
 
       <h2>1. Objet</h2>
       <p>Les présentes Conditions Générales d’Utilisation ont pour objet de définir les modalités et conditions dans lesquelles les utilisateurs peuvent accéder et utiliser notre application.</p>
@@ -41,7 +41,7 @@ const TermsAndConditions = () => {
       <h2>8. Loi applicable</h2>
       <p>Les présentes conditions sont régies par la loi française. En cas de litige, les tribunaux compétents seront ceux de Paris.</p>
 
-      <p>Pour toute question : <a href="mailto:support@votresite.com">support@votresite.com</a></p>
+      <p>Pour toute question : <a href="mailto:prasath1@hotmail.fr">prasath1@hotmail.fr</a></p>
     </div>
   );
 };

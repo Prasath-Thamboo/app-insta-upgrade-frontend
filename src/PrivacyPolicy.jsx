@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const PrivacyPolicy = () => {
   return (
-    <div style={{ padding: '40px', maxWidth: '800px', margin: 'auto' }}>
+    <div className='body-sim'>
 
       <div>
       <Link to="/dashboard">
@@ -14,7 +14,7 @@ const PrivacyPolicy = () => {
           </Link>
         </div>
       <h1>Politique de Confidentialité</h1>
-      <p>Dernière mise à jour : 30 juillet 2025</p>
+      <p>Dernière mise à jour : 06 Septembre 2025</p>
 
       <h2>1. Introduction</h2>
       <p>

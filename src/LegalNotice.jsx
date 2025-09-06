@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const LegalNotice = () => {
   return (
-    <div style={{ maxWidth: '800px', margin: '50px auto', padding: '20px' }}>
+    <div className='body-sim'>
 
       <div>
       <Link to="/dashboard">
@@ -17,24 +17,24 @@ const LegalNotice = () => {
 
       <h2>Éditeur du site</h2>
       <p>
-        Nom de l’application : <strong>MonApplication</strong><br />
-        Éditeur : <strong>Riyad Gouaich</strong><br />
-        Contact : <a href="mailto:contact@monapplication.com">contact@monapplication.com</a><br />
-        Adresse : [Votre adresse ou celle de votre entreprise]<br />
-        Numéro SIRET (si entreprise) : [Votre numéro]
+        Nom de l’application : <strong>Counter-Inst</strong><br />
+        Éditeur : <strong>Prasath</strong><br />
+        Contact : <a href="mailto:prasath1@hotmail.fr">prasath1@hotmail.fr</a><br />
+        Adresse : 11 Rue Claude Monet, Paris, France<br />
+        Numéro SIRET  : 833 455 6544
       </p>
 
       <h2>Hébergement</h2>
       <p>
         Le site est hébergé par :<br />
-        Nom de l’hébergeur : <strong>Vercel / OVH / autre</strong><br />
-        Adresse de l’hébergeur : [adresse complète]<br />
-        Téléphone : [facultatif]
+        Nom de l’hébergeur : <strong>Netlify</strong><br />
+        Adresse de l’hébergeur : 610 22nd Street, Suite 315 CA 94107 San Francisco<br />
+        Téléphone : +1 844-899-7312
       </p>
 
       <h2>Propriété intellectuelle</h2>
       <p>
-        Tous les contenus présents sur ce site (textes, images, logos, etc.) sont la propriété de MonApplication,
+        Tous les contenus présents sur ce site (textes, images, logos, etc.) sont la propriété de Counter-Inst,
         sauf mention contraire. Toute reproduction, représentation ou diffusion sans autorisation est interdite.
       </p>
 
@@ -47,12 +47,12 @@ const LegalNotice = () => {
       <h2>Données personnelles</h2>
       <p>
         Les données collectées via le site sont utilisées uniquement dans le cadre du service proposé. Pour plus
-        d’informations, veuillez consulter notre <a href="/confidentialite">politique de confidentialité</a>.
+        d’informations, veuillez consulter notre <a href="/confidentialite">Politique de confidentialité</a>.
       </p>
 
       <h2>Contact</h2>
       <p>
-        Pour toute question ou réclamation, veuillez contacter : <a href="mailto:contact@monapplication.com">contact@monapplication.com</a>
+        Pour toute question ou réclamation, veuillez contacter : <a href="mailto:prasath1@hotmail.fr">prasath1@hotmail.fr</a>
       </p>
     </div>
   );

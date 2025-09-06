@@ -4,9 +4,9 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const CookiesPolicy = () => {
   return (
-    <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
+    <div className='body-sim'>
       <div>
-      <Link to="/dashboard">
+        <Link to="/dashboard">
             <button style={{ backgroundColor: 'var(--main-color)', color: 'white', padding: '10px 20px' }}>
               ← Retour au dashboard
             </button>
@@ -14,7 +14,7 @@ const CookiesPolicy = () => {
         </div>
       <h1>Politique d'utilisation des cookies</h1>
       
-      <p>Dernière mise à jour : 30 juillet 2025</p>
+      <p>Dernière mise à jour : 06 Septembre 2025</p>
 
       <h2>1. Qu’est-ce qu’un cookie ?</h2>
       <p>Un cookie est un petit fichier texte déposé sur votre appareil lorsque vous visitez un site ou utilisez une application. Il permet notamment de vous reconnaître d’une visite à l’autre et d’améliorer votre expérience utilisateur.</p>
@@ -36,7 +36,7 @@ const CookiesPolicy = () => {
       <h2>5. Vos droits</h2>
       <p>Conformément au RGPD, vous disposez d’un droit d’accès, de rectification, de suppression ou de limitation du traitement de vos données collectées via les cookies.</p>
 
-      <p>Pour toute question relative à cette politique, contactez-nous à : <a href="mailto:support@votresite.com">support@votresite.com</a></p>
+      <p>Pour toute question relative à cette politique, contactez-nous à : <a href="mailto:prasath1@hotmail.fr">prasath1@hotmail.fr</a></p>
     </div>
   );
 };
