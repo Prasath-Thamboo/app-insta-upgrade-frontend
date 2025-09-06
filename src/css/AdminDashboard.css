@@ -64,7 +64,7 @@
 
 .btn--primary { background: var(--main-color); color: #fff; border-color: transparent; }
 .btn--danger  { background: var(--negatif);  color: #fff; border-color: transparent; }
-.btn--warn    { background: var(--warn);     color: #222; border-color: transparent; }
+.btn--warn    { background: var(--warn);     color: #222; border-color: transparent; background-color: var(--main-color); }
 .btn--info    { background: var(--info);     color: #fff; border-color: transparent; }
 
 /* ===== Mobile Cards ===== */
