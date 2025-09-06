@@ -514,6 +514,11 @@ form div{
 }
 
 /* Features */
+
+.features {
+  padding: 0;
+}
+
 .features li {
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.2);

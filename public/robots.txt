@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /payment-success
+Disallow: /payment-cancelled
+
+Sitemap: https://ton-domaine-front.com/sitemap.xml
