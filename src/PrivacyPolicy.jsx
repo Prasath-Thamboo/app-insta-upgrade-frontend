@@ -23,7 +23,7 @@ const PrivacyPolicy = () => {
 
       <h2>2. Données collectées</h2>
       <p>Nous collectons les données suivantes :</p>
-      <ul>
+      <ul style={{ textAlign:'left'}}>
         <li>Nom, prénom, adresse e-mail lors de l'inscription</li>
         <li>Données de connexion (adresse IP, navigateur)</li>
         <li>Données Instagram si vous connectez votre compte</li>
@@ -32,7 +32,7 @@ const PrivacyPolicy = () => {
 
       <h2>3. Utilisation des données</h2>
       <p>Vos données sont utilisées pour :</p>
-      <ul>
+      <ul style={{ textAlign:'left'}}>
         <li>Fournir l'accès à nos services</li>
         <li>Gérer vos abonnements</li>
         <li>Afficher vos statistiques Instagram</li>

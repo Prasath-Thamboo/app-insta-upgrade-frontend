@@ -21,7 +21,7 @@ const CookiesPolicy = () => {
 
       <h2>2. Cookies utilisés</h2>
       <p>Nous utilisons les types de cookies suivants :</p>
-      <ul>
+      <ul style={{ textAlign:'left'}}>
         <li><strong>Cookies nécessaires</strong> : indispensables au bon fonctionnement de l’application.</li>
         <li><strong>Cookies de mesure d’audience</strong> : pour analyser l’utilisation de notre application (ex : Google Analytics).</li>
         <li><strong>Cookies de réseaux sociaux</strong> : pour permettre le partage de contenu (ex : Instagram/Facebook).</li>

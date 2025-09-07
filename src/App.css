@@ -149,18 +149,6 @@ form {
   box-sizing: border-box;
 }
 
-
-.body-sim2 {
-  padding: 40px;
-  background: var(--simple-color2);
-  background-size: 400% 400%;
-  animation: gradientAnimation 6s ease infinite;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-}
-
 .title-container {
   display: flex;
   gap: 10px;

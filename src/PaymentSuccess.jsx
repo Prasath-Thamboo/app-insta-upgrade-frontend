@@ -13,7 +13,7 @@ const PaymentSuccess = () => {
   }, [navigate]);
 
   return (
-    <div style={{ padding: '50px', textAlign: 'center' }}>
+    <div className="body-sim">
       <h2>Paiement réussi ✅</h2>
       <p>Redirection vers votre dashboard...</p>
     </div>

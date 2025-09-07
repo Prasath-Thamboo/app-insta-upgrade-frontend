@@ -31,7 +31,7 @@ const Contact = () => {
   };
 
   return (
-    <div className='body-sim2'>
+    <div className='body-sim'>
        <div className="contact-container">
           <div className="return-button-wrapper">
             <Link to="/dashboard">

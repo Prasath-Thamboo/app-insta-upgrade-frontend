@@ -7,7 +7,7 @@ const PaymentCancelled = () => {
       padding: '60px',
       textAlign: 'center',
       backgroundColor: '#f8d7da',
-      color: '#721c24',
+      color: 'var(--negatif)',
       borderRadius: '10px',
       margin: '50px auto',
       maxWidth: '500px'

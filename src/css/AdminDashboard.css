@@ -62,10 +62,10 @@
 .btn--ghost { background: transparent; }
 .btn--sm { padding: 8px 12px; font-weight: 600; }
 
-.btn--primary { background: var(--main-color); color: #fff; border-color: transparent; }
+.btn--primary { background: var(--bg); color: #fff; border-color: transparent; }
 .btn--danger  { background: var(--negatif);  color: #fff; border-color: transparent; }
-.btn--warn    { background: var(--warn);     color: #222; border-color: transparent; background-color: var(--main-color); }
-.btn--info    { background: var(--info);     color: #fff; border-color: transparent; }
+.btn--warn    { background: var(--main-color);     color: var(--simple-color2); border-color: transparent; background-color: var(--main-color); }
+.btn--info    { background: var(--simple-color2);     color: var(--simple-color); border-color: transparent; }
 
 /* ===== Mobile Cards ===== */
 .user-cards {
