@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './App.css';
@@ -9,9 +9,11 @@ export default function Profile() {
   const [username, setUsername] = useState('');
   const [newUsername, setNewUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPwd, setShowPwd] = useState(false);
   const [profilePicture, setProfilePicture] = useState('');
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('success'); // 'success' | 'error'
   const [showConfirm, setShowConfirm] = useState(false);
   const [style, setStyle] = useState('classic');
   const [instagramToken, setInstagramToken] = useState('');
@@ -26,6 +28,19 @@ export default function Profile() {
 
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+
+  // Messages
+  const showMessage = (text, type = 'success') => {
+    setMessage(text);
+    setMessageType(type);
+  };
+
+  // Auto-disparition du message après 4s
+  useEffect(() => {
+    if (!message) return;
+    const id = setTimeout(() => setMessage(''), 4000);
+    return () => clearTimeout(id);
+  }, [message]);
 
   useEffect(() => {
     async function fetchUserData() {
@@ -47,8 +62,21 @@ export default function Profile() {
     fetchUserData();
   }, [token]);
 
-  // --- Handlers ---
+  // === Vérifs mot de passe (front) ===
+  // Règles: 12+ caractères, ≥1 majuscule, ≥1 caractère spécial
+  const checks = useMemo(() => ({
+    length: password.length >= 12,
+    upper: /[A-Z]/.test(password),
+    special: /[^A-Za-z0-9]/.test(password),
+  }), [password]);
 
+  const score = (checks.length ? 1 : 0) + (checks.upper ? 1 : 0) + (checks.special ? 1 : 0);
+  const scorePct = [0, 33, 66, 100][score];
+  const isPwdValid = score === 3;
+  const barColor = score === 0 ? '#9aa0a6' : score < 3 ? '#ff9800' : '#27ae60';
+  const policyMsg = "Le mot de passe doit contenir au minimum 12 caractères, au moins une majuscule et un caractère spécial.";
+
+  // --- Handlers ---
   const handleUsernameChange = async (e) => {
     e.preventDefault();
     try {
@@ -58,15 +86,19 @@ export default function Profile() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setUsername(newUsername);
-      setMessage("Nom d'utilisateur mis à jour.");
+      showMessage("Nom d'utilisateur mis à jour.", 'success');
     } catch (err) {
       console.error(err);
-      setMessage("Erreur lors de la mise à jour du nom d'utilisateur");
+      showMessage("Erreur lors de la mise à jour du nom d'utilisateur", 'error');
     }
   };
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
+    if (!isPwdValid) {
+      showMessage(policyMsg, 'error');
+      return;
+    }
     try {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/api/update-password`,
@@ -74,10 +106,10 @@ export default function Profile() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setPassword('');
-      setMessage('Mot de passe mis à jour.');
+      showMessage('Mot de passe mis à jour.', 'success');
     } catch (err) {
       console.error(err);
-      setMessage("Erreur lors de la mise à jour du mot de passe");
+      showMessage("Erreur lors de la mise à jour du mot de passe", 'error');
     }
   };
 
@@ -90,13 +122,13 @@ export default function Profile() {
       navigate('/login');
     } catch (err) {
       console.error(err);
-      setMessage("Erreur lors de la suppression du compte");
+      showMessage("Erreur lors de la suppression du compte", 'error');
     }
   };
 
   const handleImageUpload = async (e) => {
     e.preventDefault();
-    if (!file) return setMessage('Veuillez sélectionner une image.');
+    if (!file) return showMessage('Veuillez sélectionner une image.', 'error');
     const formData = new FormData();
     formData.append('image', file);
 
@@ -110,15 +142,15 @@ export default function Profile() {
       });
       setProfilePicture(res.data.url); // URL Cloudinary versionnée
       setImgError(false);
-      setMessage('Photo de profil mise à jour.');
+      showMessage('Photo de profil mise à jour.', 'success');
       if (fileInputRef.current) fileInputRef.current.value = '';
       setFile(null);
     } catch (err) {
       console.error(err);
       if (err?.response?.status === 415) {
-        setMessage('Formats autorisés: JPG, PNG, WEBP');
+        showMessage('Formats autorisés: JPG, PNG, WEBP', 'error');
       } else {
-        setMessage("Erreur lors de l'upload de l'image.");
+        showMessage("Erreur lors de l'upload de l'image.", 'error');
       }
     } finally {
       setBusy(false);
@@ -133,10 +165,10 @@ export default function Profile() {
       });
       setProfilePicture('');
       setImgError(false);
-      setMessage('Photo de profil supprimée.');
+      showMessage('Photo de profil supprimée.', 'success');
     } catch (err) {
       console.error(err);
-      setMessage("Erreur lors de la suppression de la photo.");
+      showMessage("Erreur lors de la suppression de la photo.", 'error');
     } finally {
       setBusy(false);
     }
@@ -149,9 +181,9 @@ export default function Profile() {
         { dashboardStyle: style },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage('Style mis à jour.');
+      showMessage('Style mis à jour.', 'success');
     } catch (err) {
-      setMessage('Erreur lors de la mise à jour du style');
+      showMessage('Erreur lors de la mise à jour du style', 'error');
     }
   };
 
@@ -163,11 +195,11 @@ export default function Profile() {
         { instagramToken },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage('Token Instagram mis à jour.');
+      showMessage('Token Instagram mis à jour.', 'success');
     } catch (err) {
       console.error(err);
-      setMessage('Erreur lors de la mise à jour du token Instagram, si vous voulez le supprimer le token mettez un espace et appuyer sur le bouton');
-    }a
+      showMessage("Erreur lors de la mise à jour du token Instagram. Pour le supprimer, entrez un espace puis validez.", 'error');
+    }
   };
 
   const handleOpenCustomerPortal = async () => {
@@ -181,7 +213,7 @@ export default function Profile() {
       window.location.href = data.url;
     } catch (err) {
       console.error(err);
-      setMessage("Impossible d'ouvrir le portail d'abonnement.");
+      showMessage("Impossible d'ouvrir le portail d'abonnement.", 'error');
     } finally {
       setPortalLoading(false);
     }
@@ -190,13 +222,12 @@ export default function Profile() {
   const avatarSrc = !imgError && profilePicture ? profilePicture : PLACEHOLDER;
 
   // --- UI helpers ---
-
   const TabButton = ({ id, label, hidden }) => {
     if (hidden) return null;
     const isActive = activeTab === id;
     return (
       <button
-        onClick={() => setActiveTab(id)}
+        onClick={() => { setActiveTab(id); setMessage(''); }}
         aria-selected={isActive}
         role="tab"
         style={{
@@ -255,6 +286,45 @@ export default function Profile() {
             </button>
           </Link>
         </div>
+
+        {/* Message */}
+        {message && (
+          <div
+            role="status"
+            aria-live="polite"
+            style={{
+              marginTop: 16,
+              padding: '12px 18px',
+              borderRadius: 8,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              border: '1px solid',
+              background: messageType === 'error' ? 'rgba(231,76,60,0.15)' : 'rgba(46,204,113,0.15)',
+              color: messageType === 'error' ? '#c0392b' : '#27ae60',
+              borderColor: messageType === 'error' ? '#c0392b' : '#27ae60',
+              position: 'relative'
+            }}
+          >
+            {message}
+            <button
+              onClick={() => setMessage('')}
+              aria-label="Fermer la notification"
+              style={{
+                position: 'absolute',
+                right: 8,
+                top: 6,
+                border: 'none',
+                background: 'transparent',
+                cursor: 'pointer',
+                fontSize: 18,
+                lineHeight: 1,
+                color: 'inherit'
+              }}
+            >
+              ×
+            </button>
+          </div>
+        )}
 
         {/* Avatar */}
         <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -415,22 +485,104 @@ export default function Profile() {
               {/* Mot de passe */}
               <form onSubmit={handlePasswordChange} style={{ marginBottom: 20 }}>
                 <label>Nouveau mot de passe</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder='Votre nouveau mot de passe'
+
+                {/* Champ + œil */}
+                <div style={{ position: 'relative' }}>
+                  <input
+                    type={showPwd ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    placeholder='Votre nouveau mot de passe'
+                    aria-describedby="pwd-help pwd-meter"
+                    style={{
+                      width: '100%',
+                      padding: '10px',
+                      paddingRight: 70,
+                      marginTop: '5px',
+                      borderRadius: '8px',
+                      backgroundColor: 'var(--simple-color2)',
+                      color: 'var(--simple-color)',
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPwd(v => !v)}
+                    aria-label={showPwd ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                    title={showPwd ? 'Masquer' : 'Afficher'}
+                    style={{
+                      position: 'absolute',
+                      right: 8,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: 13,
+                      lineHeight: 1
+                    }}
+                  >
+                    {showPwd ? '🙈' : '👁️'}
+                  </button>
+                </div>
+
+                {/* Barre de progression */}
+                <div id="pwd-meter" style={{ height: 8, background: 'rgba(0,0,0,0.15)', borderRadius: 999, overflow: 'hidden', marginTop: 8 }}>
+                  <div
+                    style={{
+                      width: `${scorePct}%`,
+                      height: '100%',
+                      background: barColor,
+                      transition: 'width .25s ease'
+                    }}
+                  />
+                </div>
+
+                {/* Checklist des règles */}
+                <div
+                  id="pwd-help"
                   style={{
+                    fontSize: 13,
+                    marginTop: 6,
+                    padding: '8px 12px',
+                    borderRadius: 8,
+                    background: 'rgba(0,0,0,0.06)',
+                    color: 'var(--simple-color)'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <span style={{ color: checks.length ? '#27ae60' : '#e74c3c', fontWeight: 700 }}>
+                      {checks.length ? '✔' : '✖'}
+                    </span>
+                    12 caractères minimum
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <span style={{ color: checks.upper ? '#27ae60' : '#e74c3c', fontWeight: 700 }}>
+                      {checks.upper ? '✔' : '✖'}
+                    </span>
+                    Au moins une majuscule
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: checks.special ? '#27ae60' : '#e74c3c', fontWeight: 700 }}>
+                      {checks.special ? '✔' : '✖'}
+                    </span>
+                    Au moins un caractère spécial
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={!isPwdValid}
+                  style={{
+                    marginTop: 10,
                     width: '100%',
                     padding: '10px',
-                    marginTop: '5px',
-                    borderRadius: '8px',
-                    backgroundColor: 'var(--simple-color2)',
-                    color: 'var(--simple-color)',
+                    backgroundColor: isPwdValid ? 'var(--main-color)' : '#9aa0a6',
+                    color: 'var(--simple-color2)',
+                    borderRadius: 8,
+                    cursor: isPwdValid ? 'pointer' : 'not-allowed'
                   }}
-                />
-                <button type="submit" style={{ marginTop: 10, width: '100%' }}>
+                >
                   Changer le mot de passe
                 </button>
               </form>
@@ -470,7 +622,6 @@ export default function Profile() {
           )}
         </div>
 
-        {message && <p style={{ marginTop: 20, color: 'green', textAlign: 'center' }}>{message}</p>}
       </div>
     </div>
   );
