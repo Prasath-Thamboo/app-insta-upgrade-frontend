@@ -184,6 +184,12 @@ function Dashboard() {
                 Obtenir mon token Instagram
               </button>
             </Link>
+            <Link to="/connect-instagram">
+              <button className="btn" style={{ background: 'var(--bg)', color: 'white' }}>
+                Connecter votre compte Instagram
+              </button>
+            </Link>
+
           </div>
         )}
       </div>

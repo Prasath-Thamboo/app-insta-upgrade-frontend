@@ -1,64 +1,77 @@
+// src/pages/InstagramCallback.jsx
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const InstagramCallback = () => {
-  const navigate = useNavigate();
-  const [message, setMessage] = useState('Connexion à Instagram en cours...');
+export default function InstagramCallback() {
+  const [msg, setMsg] = useState('Connexion en cours…');
+  const [pages, setPages] = useState(null); // si l’utilisateur a plusieurs Pages FB
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    const token = localStorage.getItem('token');
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      const state = params.get('state');
+      const savedState = localStorage.getItem('ig_oauth_state');
+      const token = localStorage.getItem('token');
 
-    if (!code) {
-      setMessage("Code de connexion manquant dans l'URL.");
-      return;
-    }
-
-    let called = false;
-
-    const exchangeCode = async () => {
-      if (called) return;
-      called = true;
+      if (!code) { setMsg('Code OAuth manquant.'); return; }
+      if (!state || state !== savedState) { setMsg('Échec vérification CSRF.'); return; }
 
       try {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/instagram/exchange-code`, { code }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        });
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/instagram/exchange-code`,
+          { code },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-        setMessage('Connexion Instagram réussie. Redirection...');
-        setTimeout(() => {
-          window.history.replaceState({}, document.title, "/dashboard"); // Nettoie l’URL
-          navigate('/dashboard');
-        }, 2000);
-      } catch (err) {
-        console.error(err.response?.data || err.message);
-        setMessage("Erreur lors de la connexion à Instagram.");
+        if (data?.needPageSelection && data?.pages?.length) {
+          // L’utilisateur gère plusieurs Pages : on lui propose de choisir
+          setPages(data.pages);
+          setMsg('Sélectionnez la Page liée à votre compte Instagram :');
+          return;
+        }
+
+        setMsg('Compte Instagram connecté ✅. Redirection…');
+        setTimeout(() => (window.location.href = '/dashboard'), 1000);
+      } catch (e) {
+        console.error(e?.response?.data || e.message);
+        setMsg(e?.response?.data?.message || 'Erreur lors de la connexion Instagram.');
+      } finally {
+        localStorage.removeItem('ig_oauth_state');
       }
-    };
+    })();
+  }, []);
 
-    exchangeCode();
-  }, [navigate]);
+  const selectPage = async (pageId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/instagram/select-page`,
+        { pageId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMsg('Page sélectionnée ✅. Redirection…');
+      setTimeout(() => (window.location.href = '/dashboard'), 800);
+    } catch (e) {
+      console.error(e?.response?.data || e.message);
+      alert(e?.response?.data?.message || 'Erreur de sélection de page.');
+    }
+  };
 
   return (
-    <div style={{
-      height: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: '#f0f2f5',
-      fontSize: '18px',
-      fontWeight: '500',
-      color: '#333',
-      padding: '20px',
-      textAlign: 'center',
-    }}>
-      {message}
+    <div className="body-sim">
+      <div className="container" style={{ maxWidth: 520 }}>
+        <h2>{msg}</h2>
+        {pages && (
+          <div style={{ marginTop: 16, display: 'grid', gap: 10 }}>
+            {pages.map(p => (
+              <button key={p.id} onClick={() => selectPage(p.id)} style={{ padding: 10, borderRadius: 8 }}>
+                {p.name}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
-};
-
-export default InstagramCallback;
+}
