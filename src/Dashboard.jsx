@@ -67,12 +67,25 @@ function Dashboard() {
     navigate('/login');
   };
 
+  // 1) Charger uniquement les infos utilisateur
   useEffect(() => {
     fetchUserInfo();
-    fetchFollowers();
-    const interval = setInterval(fetchFollowers, 3000);
-    return () => clearInterval(interval);
   }, []);
+
+  // 2) Lancer/réinitialiser la récupération des followers UNIQUEMENT si on a un instagramToken
+  useEffect(() => {
+    // Si token manquant, on ne fait rien (pas d'appel, pas d'intervalle)
+    if (!instagramToken) return;
+
+    // Premier appel immédiat
+    fetchFollowers();
+
+    // Puis toutes les 3 secondes
+    const interval = setInterval(fetchFollowers, 3000);
+
+    // Nettoyage si le token change ou si on démonte
+    return () => clearInterval(interval);
+  }, [instagramToken]);
 
   const renderDigits = () => {
     if (followers === null) return null;
@@ -83,7 +96,9 @@ function Dashboard() {
     ));
   };
 
-  const trialEndDate = trialStart ? new Date(new Date(trialStart).getTime() + 7 * 24 * 60 * 60 * 1000) : null;
+  const trialEndDate = trialStart
+    ? new Date(new Date(trialStart).getTime() + 7 * 24 * 60 * 60 * 1000)
+    : null;
 
   return (
     <div className={`body-sim ${design}`}>
@@ -189,7 +204,6 @@ function Dashboard() {
                 Connecter votre compte Instagram
               </button>
             </Link>
-
           </div>
         )}
       </div>
