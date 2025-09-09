@@ -7,12 +7,12 @@ const LegalNotice = () => {
     <div className='body-sim'>
 
       <div>
-      <Link to="/dashboard">
-            <button style={{ backgroundColor: 'var(--main-color)', color: 'white', padding: '10px 20px' }}>
-              ← Retour au dashboard
-            </button>
-          </Link>
-        </div>
+        <Link to="/dashboard">
+          <button style={{ backgroundColor: 'var(--main-color)', color: 'white', padding: '10px 20px' }}>
+            ← Retour au dashboard
+          </button>
+        </Link>
+      </div>
       <h1>Mentions légales</h1>
 
       <h2>Éditeur du site</h2>
