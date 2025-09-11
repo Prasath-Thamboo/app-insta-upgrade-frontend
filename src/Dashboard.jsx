@@ -5,7 +5,8 @@ import './App.css';
 
 function Dashboard() {
   const [followers, setFollowers] = useState(null);
-  const [username, setUsername] = useState(null);
+  const [igUsername, setIgUsername] = useState(null);   // 👈 username Instagram (affiché sous le compteur)
+  const [appUsername, setAppUsername] = useState(null); // 👈 username de TON app (pour le header)
   const [role, setRole] = useState(null);
   const [profilePicture, setProfilePicture] = useState('');
   const [popupType, setPopupType] = useState(null);
@@ -14,15 +15,13 @@ function Dashboard() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [instagramToken, setInstagramToken] = useState(null);
   const [trialStart, setTrialStart] = useState(null);
-  const [headerVisible, setHeaderVisible] = useState(false); // NEW
+  const [headerVisible, setHeaderVisible] = useState(false);
+
   const lastFollowers = useRef(null);
   const navigate = useNavigate();
-
   const token = localStorage.getItem('token');
 
-  // Helper pour cacher le header quand on sort des zones
   const hideHeaderIfAllowed = () => {
-    // Ne jamais cacher si le menu est ouvert
     if (!showMenu) setHeaderVisible(false);
   };
 
@@ -31,15 +30,15 @@ function Dashboard() {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setUsername(res.data.username);
+      setAppUsername(res.data.username);            // username de ton app
       setRole(res.data.role);
       setProfilePicture(res.data.profilePicture);
       setDesign(res.data.dashboardStyle);
       setIsSubscribed(res.data.isSubscribed);
-      setInstagramToken(res.data.instagramToken);
+      setInstagramToken(res.data.instagramToken);  // sert juste à savoir si on peut poll
       setTrialStart(res.data.trialStart);
     } catch (err) {
-      console.error('Erreur lors de la récupération des infos utilisateur :', err);
+      console.error('Erreur /api/me :', err);
     }
   };
 
@@ -48,15 +47,22 @@ function Dashboard() {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/followers`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const newCount = res.data.followers_count;
 
-      if (lastFollowers.current !== null && newCount !== lastFollowers.current) {
-        setPopupType(newCount > lastFollowers.current ? 'increase' : 'decrease');
-        setTimeout(() => setPopupType(null), 3000);
+      // Nouveau format normalisé du backend :
+      // { igUsername, followersCount }
+      const count = res.data?.followersCount ?? null;
+      const name = res.data?.igUsername ?? null;
+
+      if (count !== null) {
+        if (lastFollowers.current !== null && count !== lastFollowers.current) {
+          setPopupType(count > lastFollowers.current ? 'increase' : 'decrease');
+          setTimeout(() => setPopupType(null), 3000);
+        }
+        lastFollowers.current = count;
+        setFollowers(count);
       }
 
-      lastFollowers.current = newCount;
-      setFollowers(newCount);
+      if (name) setIgUsername(name);
     } catch (err) {
       console.warn('Impossible de récupérer les followers :', err?.response?.data?.message || err.message);
     }
@@ -67,24 +73,19 @@ function Dashboard() {
     navigate('/login');
   };
 
-  // 1) Charger uniquement les infos utilisateur
+  // Charger les infos utilisateur
   useEffect(() => {
     fetchUserInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 2) Lancer/réinitialiser la récupération des followers UNIQUEMENT si on a un instagramToken
+  // Poll followers si on a un instagramToken
   useEffect(() => {
-    // Si token manquant, on ne fait rien (pas d'appel, pas d'intervalle)
     if (!instagramToken) return;
-
-    // Premier appel immédiat
     fetchFollowers();
-
-    // Puis toutes les 3 secondes
     const interval = setInterval(fetchFollowers, 3000);
-
-    // Nettoyage si le token change ou si on démonte
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [instagramToken]);
 
   const renderDigits = () => {
@@ -104,11 +105,7 @@ function Dashboard() {
     <div className={`body-sim ${design}`}>
 
       {/* Hotspot en haut à droite */}
-      <div
-        className="header-hotspot"
-        onMouseEnter={() => setHeaderVisible(true)}
-        aria-hidden="true"
-      />
+      <div className="header-hotspot" onMouseEnter={() => setHeaderVisible(true)} aria-hidden="true" />
 
       {/* Overlay sombre quand le menu est ouvert */}
       {showMenu && (
@@ -122,19 +119,16 @@ function Dashboard() {
       )}
 
       {/* Zone sombre en haut à droite */}
-      <div
-        className="header-trigger"
-        onMouseEnter={() => setHeaderVisible(true)}
-      />
+      <div className="header-trigger" onMouseEnter={() => setHeaderVisible(true)} />
 
       {/* Header qui apparaît au survol */}
       <header
         className={`peek-header ${headerVisible ? 'visible' : ''}`}
         onMouseLeave={() => setHeaderVisible(false)}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color:'var(--simple-color2)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--simple-color2)' }}>
           <strong>
-            Bienvenue{username ? `, ${username}` : ''}{role === 'admin' ? ' (admin)' : ''}
+            Bienvenue{appUsername ? `, ${appUsername}` : ''}{role === 'admin' ? ' (admin)' : ''}
           </strong>
         </div>
 
@@ -199,14 +193,32 @@ function Dashboard() {
                 Obtenir mon token Instagram
               </button>
             </Link>
-            <Link to="/connect-instagram">
+            {/*<Link to="/connect-instagram">
               <button className="btn" style={{ background: 'var(--bg)', color: 'white' }}>
                 Connecter votre compte Instagram
               </button>
-            </Link>
+            </Link>*/}
           </div>
         )}
       </div>
+
+      {/* Légende : nom de la page Instagram (jamais le username de l'app) */}
+        {igUsername && (
+          <div style={{
+            marginTop: '30px',
+            textAlign: 'center',
+            opacity: 0.95,
+            background: 'var(--bg)',
+            color: '#fff',
+            padding: '20px',
+            borderRadius: '12px'
+            }}>
+            <span style={{ fontWeight: 400, letterSpacing: '0.3px', fontSize:'30px' }}>
+              Abonnez-vous <strong style={{ color:'var(--bg)' }}>@{igUsername}</strong>
+            </span>
+          </div>
+
+        )}
 
     </div>
   );
