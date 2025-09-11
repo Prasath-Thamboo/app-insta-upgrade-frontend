@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './css/AdminDashboard.css';
+import '../css/AdminDashboard.css';
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);

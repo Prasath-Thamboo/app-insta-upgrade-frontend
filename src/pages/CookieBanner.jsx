@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { loadGoogleAnalytics } from './utils/analytics'; // 👈 À ajouter
+import { loadGoogleAnalytics } from '../utils/analytics'; // 👈 À ajouter
 
 const CookieBanner = () => {
   const [showBanner, setShowBanner] = useState(false);

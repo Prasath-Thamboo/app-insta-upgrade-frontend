@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './App.css';
+import '../css/App.css';
 
 export default function Register() {
   const [email, setEmail] = useState('');

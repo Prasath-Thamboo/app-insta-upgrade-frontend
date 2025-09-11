@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import './App.css';
+import '../css/App.css';
 
 const PLACEHOLDER = '/avatar-placeholder.png';
 

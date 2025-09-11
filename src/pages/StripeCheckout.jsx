@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import './App.css';
+import '../css/App.css';
 
 
 

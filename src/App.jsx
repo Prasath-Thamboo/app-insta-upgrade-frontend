@@ -2,34 +2,34 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import ConnectInstagram from './ConnectInstagram';
-import Login from './Login';
-import Register from './Register';
-import Dashboard from './Dashboard';
-import Footer from './Footer';
-import Profile from './Profile';
-import AdminDashboard from './AdminDashboard';
-import EditUser from './EditUser';
-import ChangeRole from './ChangeRole';
-import EmailConfirmation from './EmailConfirmation';
-import StripeCheckout from './StripeCheckout';
-import PaymentSuccess from './PaymentSuccess';
-import PaymentCancelled from './PaymentCancelled';
-import ForgotPassword from './ForgotPassword';
-import ResetPassword from './ResetPassword';
-import InstagramCallback from './InstagramCallback';
-import GetInstaToken from './GetInstaToken'; 
-import Contact from './Contact';
-import StartTrial from './StartTrial';
-import Loader from './Loader';
+import ConnectInstagram from './pages/ConnectInstagram';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import Footer from './pages/Footer';
+import Profile from './pages/Profile';
+import AdminDashboard from './pages/AdminDashboard';
+import EditUser from './pages/EditUser';
+import ChangeRole from './pages/ChangeRole';
+import EmailConfirmation from './pages/EmailConfirmation';
+import StripeCheckout from './pages/StripeCheckout';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentCancelled from './pages/PaymentCancelled';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import InstagramCallback from './pages/InstagramCallback';
+import GetInstaToken from './pages/GetInstaToken'; 
+import Contact from './pages/Contact';
+import StartTrial from './pages/StartTrial';
+import Loader from './pages/Loader';
 
 
-import PrivacyPolicy from './PrivacyPolicy';
-import LegalNotice from './LegalNotice';
-import TermsAndConditions from './TermsAndConditions';
-import CookiesPolicy from './CookiesPolicy';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import LegalNotice from './pages/LegalNotice';
+import TermsAndConditions from './pages/TermsAndConditions';
+import CookiesPolicy from './pages/CookiesPolicy';
 
-import CookieBanner from './CookieBanner'; 
+import CookieBanner from './pages/CookieBanner'; 
 import { loadGoogleAnalytics } from './utils/analytics.js';
 
 function ProtectedRoute({ children, adminOnly = false }) {

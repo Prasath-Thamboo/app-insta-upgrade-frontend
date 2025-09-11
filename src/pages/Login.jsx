@@ -1,7 +1,7 @@
 // Login.jsx
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './App.css';
+import '../css/App.css';
 
 export default function Login() {
   const [emailOrUsername, setEmailOrUsername] = useState('');

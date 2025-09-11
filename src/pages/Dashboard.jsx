@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import './App.css';
+import '../css/App.css';
 
 function Dashboard() {
   const [followers, setFollowers] = useState(null);
