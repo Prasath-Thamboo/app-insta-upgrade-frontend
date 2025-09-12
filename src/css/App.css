@@ -115,12 +115,13 @@ h2{
 /* Zone sombre permanente en haut à droite */
 .header-trigger {
   position: fixed;
-  top: 0;
-  right: 0;
-  width: 80px;   /* largeur de la zone */
-  height: 40px;  /* hauteur de la zone */
-  background: rgba(0, 0, 0, 0.05); /* léger fond sombre */
+  top: 0; right: 0;
+  width: 80px; height: 40px;
+  background: linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.05));
   border-bottom-left-radius: 12px;
+  border: 1px solid rgba(255,255,255,.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 120;
   cursor: pointer;
 }
