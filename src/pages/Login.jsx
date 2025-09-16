@@ -130,7 +130,6 @@ export default function Login() {
                 placeholder="Mot de passe"
                 required
                 className="input"
-                style={{ paddingRight: '40px' }}
               />
               <button
                 type="button"
