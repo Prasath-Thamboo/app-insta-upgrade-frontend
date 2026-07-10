@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import Home from './pages/Home';
 import ConnectInstagram from './pages/ConnectInstagram';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -76,6 +77,8 @@ function App() {
   return (
     <Router>
       <Routes>
+
+        <Route path="/" element={<Home />} />
 
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />

@@ -1,0 +1,202 @@
+.home {
+  min-height: 100dvh;
+  color: var(--simple-color2);
+  background: linear-gradient(180deg, #14141c, #1c1c28);
+}
+
+/* === Header === */
+.home-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px clamp(16px, 5vw, 48px);
+  background: rgba(20, 20, 28, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.home-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: var(--simple-color2);
+}
+
+.home-brand .brand-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.home-brand .brand-name {
+  font-size: 1.1rem;
+}
+
+.home-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.home-nav a {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.home-nav a:hover {
+  color: var(--simple-color2);
+}
+
+.home-header-cta {
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .home-nav {
+    display: none;
+  }
+}
+
+/* === Hero === */
+.home-hero {
+  padding: clamp(48px, 10vw, 120px) clamp(16px, 6vw, 48px);
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-hero .hero-title {
+  color: var(--simple-color2);
+}
+
+.home-hero .hero-subtitle {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* === Boutons hero === */
+.home .cta-row .btn.btn-fill {
+  background: var(--bg);
+  color: var(--simple-color2);
+  font-weight: bold;
+}
+
+.home .cta-row .btn.btn-outline {
+  background: transparent;
+  color: var(--simple-color2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  font-weight: bold;
+}
+
+.home .cta-row .btn.btn-outline:hover {
+  border-color: var(--simple-color2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* === Features === */
+.home-features {
+  padding: clamp(32px, 6vw, 64px) clamp(16px, 6vw, 48px);
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-features h2,
+.home-steps h2,
+.home-cta-banner h2 {
+  color: var(--simple-color2);
+  margin-bottom: 32px;
+}
+
+.home-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.home-feature-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: left;
+}
+
+.home-feature-card .feat-ico {
+  font-size: 1.8rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.home-feature-card h3 {
+  color: var(--simple-color2);
+  margin: 0 0 8px;
+}
+
+.home-feature-card p {
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* === Étapes === */
+.home-steps {
+  padding: clamp(32px, 6vw, 64px) clamp(16px, 6vw, 48px);
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.home-step-card {
+  padding: 24px 20px;
+}
+
+.home-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--simple-color2);
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.home-step-card h3 {
+  color: var(--simple-color2);
+  margin: 0 0 8px;
+}
+
+.home-step-card p {
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* === Bandeau CTA final === */
+.home-cta-banner {
+  margin: clamp(32px, 6vw, 64px) clamp(16px, 6vw, 48px);
+  padding: clamp(32px, 6vw, 56px);
+  border-radius: 24px;
+  background: var(--bg);
+  text-align: center;
+}
+
+.home-cta-banner p {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+}
