@@ -1,22 +1,20 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { StatusScreen } from '../components/PageLayout';
 
-const PaymentCancelled = () => {
-  return (
-    <div style={{
-      padding: '60px',
-      textAlign: 'center',
-      backgroundColor: '#f8d7da',
-      color: 'var(--negatif)',
-      borderRadius: '10px',
-      margin: '50px auto',
-      maxWidth: '500px'
-    }}>
-      <h2>Paiement annulé</h2>
-      <p>Vous avez annulé le paiement. Aucun montant n'a été débité.</p>
-      <Link to="/dashboard">Retour au tableau de bord</Link>
-    </div>
-  );
-};
+const PaymentCancelled = () => (
+  <StatusScreen
+    icon="✕"
+    tone="error"
+    title="Paiement annulé"
+    actions={
+      <>
+        <Link to="/subscribe" className="btn btn--primary btn--lg">Réessayer</Link>
+        <Link to="/dashboard" className="btn btn--lg">Retour au compteur</Link>
+      </>
+    }
+  >
+    <p>Vous avez annulé le paiement. Aucun montant n’a été débité.</p>
+  </StatusScreen>
+);
 
 export default PaymentCancelled;

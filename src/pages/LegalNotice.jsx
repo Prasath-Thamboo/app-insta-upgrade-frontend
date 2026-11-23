@@ -1,18 +1,10 @@
-import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import PageLayout from '../components/PageLayout';
 
 
 const LegalNotice = () => {
   return (
-    <div className='body-sim'>
-
-      <div>
-        <Link to="/dashboard">
-          <button style={{ backgroundColor: 'var(--main-color)', color: 'white', padding: '10px 20px' }}>
-            ← Retour au dashboard
-          </button>
-        </Link>
-      </div>
+    <PageLayout narrow>
+      <article className="prose">
       <h1>Mentions légales</h1>
 
       <h2>Éditeur du site</h2>
@@ -47,14 +39,15 @@ const LegalNotice = () => {
       <h2>Données personnelles</h2>
       <p>
         Les données collectées via le site sont utilisées uniquement dans le cadre du service proposé. Pour plus
-        d’informations, veuillez consulter notre <a href="/confidentialite">Politique de confidentialité</a>.
+        d’informations, veuillez consulter notre <a href="/politique-confidentialite">Politique de confidentialité</a>.
       </p>
 
       <h2>Contact</h2>
       <p>
         Pour toute question ou réclamation, veuillez contacter : <a href="mailto:prasath1@hotmail.fr">prasath1@hotmail.fr</a>
       </p>
-    </div>
+    </article>
+    </PageLayout>
   );
 };
 

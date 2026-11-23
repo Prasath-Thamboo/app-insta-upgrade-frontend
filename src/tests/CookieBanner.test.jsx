@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import CookieBanner from '../CookieBanner'
+import CookieBanner from '../pages/CookieBanner'
 
 // 🔧 Mock de GA (doit matcher EXACTEMENT le chemin importé dans CookieBanner)
 vi.mock('../utils/analytics', () => ({

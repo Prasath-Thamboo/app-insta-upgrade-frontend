@@ -1,21 +1,21 @@
-// src/EmailConfirmation.jsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { StatusScreen } from '../components/PageLayout';
 
 const EmailConfirmation = () => {
-  const { token } = useParams(); // ✅ Utilise useParams pour récupérer le token de l’URL
-  const [message, setMessage] = useState('Validation en cours...');
+  const { token } = useParams();
+  const [message, setMessage] = useState('Validation en cours…');
   const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     const verifyEmail = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/verify-email/${token}`);
-        setMessage(res.data.message || "Email vérifié avec succès.");
+        setMessage(res.data.message || 'Email vérifié avec succès.');
         setSuccess(true);
       } catch (err) {
-        setMessage(err.response?.data?.message || "Erreur lors de la validation.");
+        setMessage(err.response?.data?.message || 'Erreur lors de la validation.');
         setSuccess(false);
       }
     };
@@ -23,24 +23,28 @@ const EmailConfirmation = () => {
     if (token) {
       verifyEmail();
     } else {
-      setMessage("Lien de validation invalide.");
+      setMessage('Lien de validation invalide.');
       setSuccess(false);
     }
   }, [token]);
 
+  if (success === null) {
+    return <StatusScreen icon={<span className="spinner" />} title={message} />;
+  }
+
   return (
-    <div style={{
-      padding: "60px",
-      textAlign: "center",
-      backgroundColor: success ? "#d4edda" : "#f8d7da",
-      color: success ? "#155724" : "#721c24",
-      borderRadius: "10px",
-      margin: "50px auto",
-      maxWidth: "500px"
-    }}>
-      <h2>{message}</h2>
-      {success && <p>Vous pouvez maintenant vous connecter.</p>}
-    </div>
+    <StatusScreen
+      icon={success ? '✓' : '!'}
+      tone={success ? 'success' : 'error'}
+      title={message}
+      actions={
+        success
+          ? <Link to="/login" className="btn btn--primary btn--lg">Se connecter</Link>
+          : <Link to="/contact" className="btn btn--lg">Contacter le support</Link>
+      }
+    >
+      <p>{success ? 'Votre compte est activé. Vous pouvez maintenant vous connecter.' : 'Le lien est peut-être expiré ou a déjà été utilisé.'}</p>
+    </StatusScreen>
   );
 };
 

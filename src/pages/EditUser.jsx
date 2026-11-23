@@ -1,7 +1,7 @@
-// EditUser.jsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import PageLayout from '../components/PageLayout';
 
 export default function EditUser() {
   const { id } = useParams();
@@ -11,86 +11,79 @@ export default function EditUser() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [instagramToken, setInstagramToken] = useState('');
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(null); // { type, text }
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     })
-    .then((res) => {
-      const user = res.data.find((u) => u._id === id);
-      if (!user) return setMessage('Utilisateur introuvable');
-      setEmail(user.email);
-      setUsername(user.username);
-      setInstagramToken(user.instagramToken || '');
-    })
-    .catch(() => setMessage('Erreur de chargement'));
+      .then((res) => {
+        const user = res.data.find((u) => u._id === id);
+        if (!user) return setMessage({ type: 'error', text: 'Utilisateur introuvable' });
+        setEmail(user.email);
+        setUsername(user.username);
+        setInstagramToken(user.instagramToken || '');
+      })
+      .catch(() => setMessage({ type: 'error', text: 'Erreur de chargement' }));
   }, [id, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // 1. Mettre à jour les infos générales
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}`, {
-        email,
-        username,
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}`, { email, username }, {
+        headers: { Authorization: `Bearer ${token}` },
       });
-
-      // 2. Mettre à jour le token Instagram (peut être null)
       await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}/token`, {
-        instagramToken: instagramToken.trim() === '' ? null : instagramToken.trim()
+        instagramToken: instagramToken.trim() === '' ? null : instagramToken.trim(),
       }, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
-
-      setMessage('Mise à jour réussie');
+      setMessage({ type: 'success', text: 'Mise à jour réussie' });
       setTimeout(() => navigate('/admin'), 1000);
     } catch (err) {
       console.error(err);
-      setMessage('Erreur lors de la mise à jour');
+      setMessage({ type: 'error', text: 'Erreur lors de la mise à jour' });
     }
   };
 
   return (
-    <div className="body-sim" >
-      <div 
-        style={{
-          padding:'50px',
-          borderRadius: '12px',
-          boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
-          }}>
-        <Link to="/admin">
-          <button style={{ padding: '8px 16px' }}>← Retour au panneau admin</button>
-        </Link>
-        <h1>Modifier l'utilisateur</h1>
+    <PageLayout narrow back={{ to: '/admin', label: 'Retour au panneau admin' }}>
+      <div className="page__head">
+        <h1>Modifier l’utilisateur</h1>
+        <p>{username || email}</p>
+      </div>
 
-        {message && <p style={{ color: 'red' }}>{message}</p>}
+      <div className="card">
+        <form onSubmit={handleSubmit} className="form">
+          {message && <div className={`alert alert--${message.type}`} role="status">{message.text}</div>}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <label>Email :</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <div className="field">
+            <label className="field__label" htmlFor="email">Email</label>
+            <input id="email" className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          </div>
 
-          <label>Nom d’utilisateur :</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <div className="field">
+            <label className="field__label" htmlFor="username">Nom d’utilisateur</label>
+            <input id="username" className="input" type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          </div>
 
-          <label>Token Instagram :</label>
-          <input
-            type="text"
-            value={instagramToken}
-            onChange={(e) => setInstagramToken(e.target.value)}
-            placeholder="Laisser vide pour supprimer"
-          />
-          <button type="button" onClick={() => setInstagramToken('')} style={{ background: 'var(--negatif)' }}>
-            Supprimer le token
-          </button>
+          <div className="field">
+            <label className="field__label" htmlFor="token">Token Instagram</label>
+            <div className="input-group">
+              <input id="token" className="input" type="text" value={instagramToken}
+                onChange={(e) => setInstagramToken(e.target.value)} placeholder="Laisser vide pour supprimer" />
+              {instagramToken && (
+                <button type="button" className="input-group__btn" onClick={() => setInstagramToken('')}>Effacer</button>
+              )}
+            </div>
+          </div>
 
-          <button type="submit" style={{ backgroundColor: 'var(--main-color)', color: 'white' }}>
-            Enregistrer les modifications
-          </button>
+          <div className="row">
+            <button type="submit" className="btn btn--primary">Enregistrer les modifications</button>
+            <button type="button" className="btn btn--ghost" onClick={() => navigate('/admin')}>Annuler</button>
+          </div>
         </form>
       </div>
-    </div>
+    </PageLayout>
   );
 }

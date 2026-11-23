@@ -1,20 +1,20 @@
-import React from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
-import '../css/App.css';
-
-
-
+import { Link } from 'react-router-dom';
+import PageLayout from '../components/PageLayout';
 
 const StripeCheckout = () => {
   const token = localStorage.getItem('token');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubscribe = async () => {
     if (!token) {
-      alert("Veuillez vous connecter.");
+      setError('Veuillez vous connecter pour vous abonner.');
       return;
     }
-
+    setError('');
+    setLoading(true);
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/stripe/create-checkout-session`, {}, {
         headers: { Authorization: `Bearer ${token}` },
@@ -22,95 +22,56 @@ const StripeCheckout = () => {
       window.location.href = res.data.url;
     } catch (err) {
       console.error(err);
-      alert("Erreur lors de la création de la session Stripe");
+      setError('Erreur lors de la création de la session de paiement.');
+      setLoading(false);
     }
   };
 
   return (
-    <div className='body-sim'>
-
-      <div style={{ marginTop: '30px', textAlign: 'center' }}>
-        <Link to="/dashboard">
-          <button style={{ backgroundColor: 'var(--main-color)', color: 'white', padding: '10px 20px' }}>
-            ← Retour au dashboard
-          </button>
-        </Link>
+    <PageLayout back={{ to: '/dashboard', label: 'Retour au compteur' }}>
+      <div className="page__head center">
+        <span className="eyebrow">Tarifs</span>
+        <h1 style={{ marginTop: 14 }}>Choisissez votre offre</h1>
+        <p>Paiement sécurisé par Stripe. Sans engagement, résiliable à tout moment.</p>
       </div>
 
-      <h1 style={{ textAlign: "center", marginBottom: "40px" }}>Choisissez votre offre</h1>
-      
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        gap: "40px",
-        flexWrap: "wrap"
-      }}>
-        {/* Free Plan */}
-        <div style={{
-          backgroundColor: "white",
-          border: "1px solid var(--simple-color2)",
-          borderRadius: "12px",
-          padding: "30px",
-          width: "300px",
-          boxShadow: "0 0 10px rgba(0,0,0,0.1)", 
-          color:'black'
-        }}>
-          <h2>Gratuit</h2>
-          <p><strong>Durée :</strong> 7 jours</p>
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            <li>⏳ Accès temporaire au compteur</li>
-            <li>🔒 Limité à certaines fonctions</li>
-            <li>📧 Assistance standard</li>
-          </ul>
-          <p style={{ marginTop: "20px", fontWeight: "bold", color: "tomato" }}>Expire après 7 jours</p>
+      {error && (
+        <div className="alert alert--error" role="alert" style={{ maxWidth: 820, margin: '0 auto 20px' }}>
+          {error} {!token && <Link to="/login">Se connecter</Link>}
         </div>
+      )}
 
-        {/* Premium Plan */}
-        <div style={{
-          backgroundColor: "#fff",
-          border: "2px solid var(--main-color)",
-          borderRadius: "12px",
-          padding: "30px",
-          width: "300px",
-          boxShadow: "0 0 15px rgba(0,0,0,0.15)",
-          position: "relative"
-        }}>
-          <div style={{
-            position: "absolute",
-            top: "-15px",
-            right: "-15px",
-            backgroundColor: "var(--main-color)",
-            color: "white",
-            padding: "5px 15px",
-            borderRadius: "20px",
-            fontSize: "14px",
-          }}>
-            Recommandé ⭐
-          </div>
-          <h2 style={{ color:"black" }}>Premium</h2>
-          <p style={{ color:"black" }}><strong>19.99€/mois</strong></p>
-          <ul style={{ listStyle: "none", padding: 0, color:"black" }}>
-            <li>✅ Accès complet au compteur</li>
-            <li>🔔 Alertes de variations</li>
-            <li>📈 Suivi automatique</li>
-            <li>💬 Assistance prioritaire</li>
+      <div className="pricing">
+        <article className="plan">
+          <h3>Essai gratuit</h3>
+          <p>Pour découvrir le service.</p>
+          <div className="plan__price">0 € <small>/ 7 jours</small></div>
+          <ul>
+            <li>Accès temporaire au compteur</li>
+            <li>Les 5 designs</li>
+            <li>Assistance standard</li>
           </ul>
-          <button onClick={handleSubscribe} style={{
-            marginTop: "20px",
-            padding: "12px 24px",
-            backgroundColor: "var(--main-color)",
-            color: "white",
-            fontSize: "16px",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            width: "100%"
-          }}>
-            Passer à Premium
+          <Link to="/start-trial" className="btn btn--block btn--lg">Activer l’essai</Link>
+        </article>
+
+        <article className="plan plan--featured">
+          <span className="plan__tag">Recommandé</span>
+          <h3>Premium</h3>
+          <p>Pour un affichage permanent.</p>
+          <div className="plan__price">19,99 € <small>/ mois</small></div>
+          <ul>
+            <li>Accès complet au compteur</li>
+            <li>Alertes de variations</li>
+            <li>Suivi automatique</li>
+            <li>Assistance prioritaire</li>
+          </ul>
+          <button type="button" onClick={handleSubscribe} className="btn btn--grad btn--block btn--lg" disabled={loading}>
+            {loading ? 'Redirection…' : 'Passer à Premium'}
           </button>
-        </div>
+        </article>
       </div>
-    </div>
+      <p className="center muted" style={{ marginTop: 24, fontSize: '.9rem' }}>🔒 Paiement 100 % sécurisé via Stripe</p>
+    </PageLayout>
   );
 };
 

@@ -1,20 +1,12 @@
-import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import PageLayout from '../components/PageLayout';
 
 
 const PrivacyPolicy = () => {
   return (
-    <div className='body-sim'>
-
-      <div>
-      <Link to="/dashboard">
-            <button style={{ backgroundColor: 'var(--main-color)', color: 'white', padding: '10px 20px' }}>
-              ← Retour au dashboard
-            </button>
-          </Link>
-        </div>
+    <PageLayout narrow>
+      <article className="prose">
       <h1>Politique de Confidentialité</h1>
-      <p>Dernière mise à jour : 06 Septembre 2025</p>
+      <p className="meta">Dernière mise à jour : 06 Septembre 2025</p>
 
       <h2>1. Introduction</h2>
       <p>
@@ -23,7 +15,7 @@ const PrivacyPolicy = () => {
 
       <h2>2. Données collectées</h2>
       <p>Nous collectons les données suivantes :</p>
-      <ul style={{ textAlign:'left'}}>
+      <ul >
         <li>Nom, prénom, adresse e-mail lors de l'inscription</li>
         <li>Données de connexion (adresse IP, navigateur)</li>
         <li>Données Instagram si vous connectez votre compte</li>
@@ -32,7 +24,7 @@ const PrivacyPolicy = () => {
 
       <h2>3. Utilisation des données</h2>
       <p>Vos données sont utilisées pour :</p>
-      <ul style={{ textAlign:'left'}}>
+      <ul >
         <li>Fournir l'accès à nos services</li>
         <li>Gérer vos abonnements</li>
         <li>Afficher vos statistiques Instagram</li>
@@ -41,7 +33,7 @@ const PrivacyPolicy = () => {
 
       <h2>4. Cookies</h2>
       <p>
-        Nous utilisons des cookies pour améliorer l'expérience utilisateur. Vous pouvez les contrôler via les paramètres de votre navigateur. Voir notre <a href="/politique-cookies">politique de cookies</a> pour plus de détails.
+        Nous utilisons des cookies pour améliorer l'expérience utilisateur. Vous pouvez les contrôler via les paramètres de votre navigateur. Voir notre <a href="/cookiesPolicy">politique de cookies</a> pour plus de détails.
       </p>
 
       <h2>5. Google Analytics</h2>
@@ -63,7 +55,8 @@ const PrivacyPolicy = () => {
       <p>
         Pour toute question ou demande relative à vos données personnelles, contactez-nous via <a href="/contact">notre formulaire de contact</a>.
       </p>
-    </div>
+    </article>
+    </PageLayout>
   );
 };
 

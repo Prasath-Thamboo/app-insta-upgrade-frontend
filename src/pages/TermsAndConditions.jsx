@@ -1,21 +1,13 @@
-import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import PageLayout from '../components/PageLayout';
 
 
 const TermsAndConditions = () => {
   return (
-    <div className='body-sim'>
-
-      <div>
-      <Link to="/dashboard">
-            <button style={{ backgroundColor: 'var(--main-color)', color: 'white', padding: '10px 20px' }}>
-              ← Retour au dashboard
-            </button>
-          </Link>
-        </div>
+    <PageLayout narrow>
+      <article className="prose">
       <h1>Conditions Générales d'Utilisation</h1>
       
-      <p>Dernière mise à jour : 06 Septembre 2025</p>
+      <p className="meta">Dernière mise à jour : 06 Septembre 2025</p>
 
       <h2>1. Objet</h2>
       <p>Les présentes Conditions Générales d’Utilisation ont pour objet de définir les modalités et conditions dans lesquelles les utilisateurs peuvent accéder et utiliser notre application.</p>
@@ -42,7 +34,8 @@ const TermsAndConditions = () => {
       <p>Les présentes conditions sont régies par la loi française. En cas de litige, les tribunaux compétents seront ceux de Paris.</p>
 
       <p>Pour toute question : <a href="mailto:prasath1@hotmail.fr">prasath1@hotmail.fr</a></p>
-    </div>
+    </article>
+    </PageLayout>
   );
 };
 
